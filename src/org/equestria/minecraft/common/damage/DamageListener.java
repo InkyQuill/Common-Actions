@@ -15,17 +15,14 @@
  */
 package org.equestria.minecraft.common.damage;
 
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import net.inkyquill.equestria.ca.CommonAbilities;
-import org.equestria.minecraft.common.checkers.BlockChecker;
 import org.equestria.minecraft.common.checkers.EffectsChecker;
 import org.equestria.minecraft.common.checkers.FoodEffectsChecker;
 
@@ -40,26 +37,18 @@ implements Listener {
     @EventHandler
     public void onDamageDone(EntityDamageEvent event) {
         boolean isCancelled = event.isCancelled();
-        isCancelled = isCancelled || FoodEffectsChecker.getInstance(this.plugin).checkEvent((Event)event, null);
+        isCancelled = isCancelled || FoodEffectsChecker.getInstance(this.plugin).checkEvent(event, null);
         isCancelled = isCancelled || DamageController.getInstance(this.plugin).processDamage(event);
         event.setCancelled(isCancelled);
     }
 
     @EventHandler
     public void onPlayerDeath(EntityDeathEvent event) {
-        if (EntityType.PLAYER.equals((Object)event.getEntityType())) {
-			Boolean DEenabled = this.plugin.getBoolConfigItem("deathEffectsEnabled");
-			if(DEenabled)
-				EffectsChecker.getInstance(this.plugin).addDeathEffects((Player)event.getEntity());
+        if (EntityType.PLAYER.equals(event.getEntityType())) {
+            Boolean DEenabled = this.plugin.getBoolConfigItem("deathEffectsEnabled");
+            if (DEenabled)
+                EffectsChecker.getInstance(this.plugin).addDeathEffects((Player)event.getEntity());
         }
-    }
-
-    @EventHandler
-    public void onPlayerInteract(EntityDamageByEntityEvent event) {
-        boolean isCancelled = event.isCancelled();
-        boolean result = BlockChecker.getInstance(this.plugin).checkEvent((Event)event, (JavaPlugin)this.plugin);
-        isCancelled = isCancelled || !result;
-        event.setCancelled(isCancelled);
     }
 }
 

@@ -14,26 +14,27 @@
  */
 package net.inkyquill.equestria.ca;
 
-import net.inkyquill.equestria.ca.runnable.TimeUpdater;
 import net.inkyquill.equestria.ca.commands.CelestialCommand;
 import net.inkyquill.equestria.ca.commands.GMCommand;
 import net.inkyquill.equestria.ca.commands.WeatherCommand;
 import net.inkyquill.equestria.ca.handlers.PlayerChatHandler;
+import net.inkyquill.equestria.ca.handlers.WorldListener;
+import net.inkyquill.equestria.ca.runnable.TimeUpdater;
 import net.inkyquill.equestria.ca.settings.CASettings;
+import net.inkyquill.equestria.ca.settings.RCsettings;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.equestria.minecraft.common.block.BlockListener;
-import org.equestria.minecraft.common.block.PlayerMoveListener;
-import org.equestria.minecraft.common.commands.*;
-import org.equestria.minecraft.common.craft.CraftListener;
+import org.equestria.minecraft.common.commands.DamageCommandExecutor;
+import org.equestria.minecraft.common.commands.EffectsCommandExecutor;
+import org.equestria.minecraft.common.commands.GameMasterCommandExecutor;
+import org.equestria.minecraft.common.commands.MonsterCommandExecutor;
 import org.equestria.minecraft.common.damage.DamageListener;
 import org.equestria.minecraft.common.food.FoodListener;
 import org.equestria.minecraft.common.items.ItemsListener;
 import org.equestria.minecraft.common.login.LoginListener;
 import org.equestria.minecraft.common.monsters.MonstersListener;
-import net.inkyquill.equestria.ca.handlers.WorldListener;
 
 import java.util.logging.Logger;
 
@@ -50,6 +51,9 @@ extends JavaPlugin {
         {
             CASettings.GetWorldConfig(w);
         }
+        CASettings.chat = new RCsettings();
+        CASettings.loadRCConfig();
+
 
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
@@ -64,9 +68,9 @@ extends JavaPlugin {
         CASettings.L.info("Brawling...");
         DamageListener damageListener = new DamageListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(damageListener, this);
-        CASettings.L.info("Voyeuring...");
-        PlayerMoveListener moveListener = new PlayerMoveListener(this);
-        Bukkit.getServer().getPluginManager().registerEvents(moveListener, this);
+        //CASettings.L.info("Voyeuring...");
+        //PlayerMoveListener moveListener = new PlayerMoveListener(this);
+        // Bukkit.getServer().getPluginManager().registerEvents(moveListener, this);
         //CASettings.L.info("Sharpening pickaxes...");
         //BlockListener blockListener = new BlockListener(this);
         //Bukkit.getServer().getPluginManager().registerEvents(blockListener, this);
@@ -76,18 +80,18 @@ extends JavaPlugin {
         CASettings.L.info("Generating epic loot...");
         ItemsListener itemListener = new ItemsListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(itemListener, this);
-        CASettings.L.info("Crafting traps...");
-        CraftListener craftListener = new CraftListener(this);
-        Bukkit.getServer().getPluginManager().registerEvents(craftListener, this);
+        //CASettings.L.info("Crafting traps...");
+        //CraftListener craftListener = new CraftListener(this);
+        //Bukkit.getServer().getPluginManager().registerEvents(craftListener, this);
         CASettings.L.info("Awaiting user commands...");
         MonsterCommandExecutor monstersExecutor = new MonsterCommandExecutor(this);
         this.getCommand("restrictTarget").setExecutor(monstersExecutor);
-        BlockPermissionCommandExecutor blocksExecutor = new BlockPermissionCommandExecutor(this);
-        this.getCommand("blockPerm").setExecutor(blocksExecutor);
-        DropChanceCommandExecutor dropChanceExecutor = new DropChanceCommandExecutor(this);
-        this.getCommand("dropChance").setExecutor(dropChanceExecutor);
-        CraftPermissionCommandExecutor craftPermissionExecutor = new CraftPermissionCommandExecutor(this);
-        this.getCommand("craftPerm").setExecutor(craftPermissionExecutor);
+        // BlockPermissionCommandExecutor blocksExecutor = new BlockPermissionCommandExecutor(this);
+        // this.getCommand("blockPerm").setExecutor(blocksExecutor);
+        // DropChanceCommandExecutor dropChanceExecutor = new DropChanceCommandExecutor(this);
+        // this.getCommand("dropChance").setExecutor(dropChanceExecutor);
+        // CraftPermissionCommandExecutor craftPermissionExecutor = new CraftPermissionCommandExecutor(this);
+        //  this.getCommand("craftPerm").setExecutor(craftPermissionExecutor);
         EffectsCommandExecutor effectsExecutor = new EffectsCommandExecutor(this);
         this.getCommand("effects").setExecutor(effectsExecutor);
         DamageCommandExecutor damageExecutor = new DamageCommandExecutor(this);
@@ -109,7 +113,7 @@ extends JavaPlugin {
         manager.registerEvents(new WorldListener(this),this);
 
         new TimeUpdater().runTaskLater(this, 5);
-        CASettings.L.fine("Plugin successfully initialized...");
+        CASettings.L.info("Plugin successfully initialized...");
     }
 
     @Override
@@ -119,7 +123,7 @@ extends JavaPlugin {
         getServer().getPluginManager().removePermission(CASettings.time);
         try{CASettings.SaveConfigs();}
         catch(Exception e){log.info("Couldn't save configs: " + e.getMessage());}
-        CASettings.L.fine("Plugin successfully deinitialized...");
+        CASettings.L.info("Plugin successfully deinitialized...");
     }
 
     public int getConfigItemId(String s, int i) {

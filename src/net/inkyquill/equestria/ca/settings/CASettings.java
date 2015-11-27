@@ -1,32 +1,35 @@
 package net.inkyquill.equestria.ca.settings;
 
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
-import net.inkyquill.equestria.ca.CommonAbilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Created by Pavel on 23.11.2015.
+ * Created by Inky Quill on 23.11.2015.
+ * Updated on 27.11.2015
+ * Settings for the whole plugin.
  */
 public class CASettings
 {
     public static final Permission weather;
     public static final Permission gm;
     public static final Permission time;
-    static Map<String, WorldSettings> W;
-    static Map<String, PlayerSettings> P;
     public static CommonAbilities plugin;
     public static Logger L;
     public static RCsettings chat;
+    static Map<String, WorldSettings> W;
+    static Map<String, PlayerSettings> P;
 
     static {
         weather = new Permission("ca.weather");
@@ -144,7 +147,7 @@ public class CASettings
             config.set(w.getName()+".time.chaos.maximum",wc.time.ChaosDurationMax);
         }
         config.save(new File(plugin.getDataFolder(),"worlds.yml"));
-        L.fine("Saved all worlds!");
+        L.info("Saved all worlds!");
         config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players.yml"));
         for(String p: P.keySet())
         {
@@ -154,7 +157,71 @@ public class CASettings
             config.set(p+".gm.radius",P.get(p).GM.Radius);
         }
         config.save(new File(plugin.getDataFolder(),"players.yml"));
-        L.fine("Saved all players!");
+        L.info("Saved all players!");
+        saveRCConfig();
+        L.info("Saved RealChat config.");
     }
 
+    public static void loadRCConfig() {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "realisticchat.yml"));
+
+        chat.spokenPlayerColor = getConfigColor(config, "chatSpokenPlayerColor", ChatColor.YELLOW);
+        chat.heardPlayerColor = getConfigColor(config, "chatHeardPlayerColor", ChatColor.GREEN);
+        chat.messageColor = getConfigColor(config, "chatMessageColor", ChatColor.WHITE);
+        chat.dimMessageColor = getConfigColor(config, "chatDimMessageColor", ChatColor.DARK_GRAY);
+
+        chat.garbleRangeDivisor = config.getDouble("garbleRangeDivisor", 2D);
+        chat.speakingRangeMeters = config.getDouble("speakingRangeMeters", 50D);
+        chat.yellMax = config.getInt("yellMax", 4);
+        chat.yellHunger = config.getIntegerList("yellHunger");
+        chat.yellDistance = config.getDoubleList("yellDistance");
+        int ai[] = {
+                1, 2, 4, 20
+        };
+        double ad[] = {
+                10D, 50D, 100D, 500D
+        };
+        if (chat.yellHunger == null || chat.yellHunger.size() < chat.yellMax || chat.yellDistance == null || chat.yellDistance.size() < chat.yellMax) {
+            chat.yellMax = 4;
+            chat.yellHunger = new ArrayList<Integer>();
+            for (int i : ai) chat.yellHunger.add(i);
+            chat.yellDistance = new ArrayList<Double>();
+            for (double d : ad) chat.yellDistance.add(d);
+        }
+        chat.whisperRangeDecrease = config.getDouble("whisperRangeDecrease", 40D);
+        chat.garblePartialChance = config.getDouble("garblePartialChance", 0.1D);
+        chat.garbleAllDroppedMessage = config.getString("garbleAllDroppedMessage", "~~~");
+        chat.chatLineFormat = config.getString("chatLineFormat", "%1$s: %2$s");
+
+    }
+
+    public static void saveRCConfig() throws IOException {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "realisticchat.yml"));
+        config.set("chatSpokenPlayerColor", ChatColor.YELLOW.name());
+        config.set("chatHeardPlayerColor", ChatColor.GREEN.name());
+        config.set("chatMessageColor", ChatColor.WHITE.name());
+        config.set("chatDimMessageColor", ChatColor.DARK_GRAY.name());
+
+        config.set("garbleRangeDivisor", chat.garbleRangeDivisor);
+        config.set("speakingRangeMeters", chat.speakingRangeMeters);
+        config.set("yellMax", chat.yellMax);
+
+        config.set("yellHunger", chat.yellHunger);
+        config.set("yellDistance", chat.yellDistance);
+
+        config.set("whisperRangeDecrease", chat.whisperRangeDecrease);
+        config.set("garblePartialChance", chat.garblePartialChance);
+        config.set("garbleAllDroppedMessage", chat.garbleAllDroppedMessage);
+        config.set("chatLineFormat", chat.chatLineFormat);
+        config.save(new File(plugin.getDataFolder(), "realisticchat.yml"));
+    }
+
+
+    private static ChatColor getConfigColor(FileConfiguration config, String option, ChatColor yellow) {
+        try {
+            return ChatColor.valueOf(config.getString(option).toUpperCase());
+        } catch (Exception e) {
+            return yellow;
+        }
+    }
 }

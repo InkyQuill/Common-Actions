@@ -20,6 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +29,43 @@ implements CommandExecutor {
 
     static String PIntro;
     static{ PIntro = ChatColor.GOLD + "[CA/GM] ";}
+
+    private static void helpCommand(CommandSender sender) {
+        String message = PIntro +
+                ChatColor.WHITE +
+                "Usage:";
+        sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
+                "/gms set <prefix|color|radius>" +
+                ChatColor.WHITE +
+                " sets options for gm speech.";
+        sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
+                "/gms <radius> <color> <prefix>" +
+                ChatColor.WHITE +
+                " sets options for gm speech in one command.";
+        sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
+                "/gms colors" +
+                ChatColor.WHITE +
+                " shows color list";
+        sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
+                "/gms <on|off>" +
+                ChatColor.WHITE +
+                " starts and ends GM chat.";
+        sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
+                "/gms my" +
+                ChatColor.WHITE +
+                " shows your current GM Speech settings.";
+        sender.sendMessage(message);
+    }
 
     public boolean onCommand(CommandSender commandsender, Command command, String s, String[] as) {
 
@@ -154,9 +192,8 @@ implements CommandExecutor {
                 }
                 else
                 {
-                    List<String> tmp = Arrays.asList(as);
-                    tmp.remove(0);
-                    tmp.remove(0);
+                    List<String> tmp = new ArrayList<String>();
+                    tmp.addAll(Arrays.asList(as).subList(2, as.length));
                     ps.GM.Prefix = Joiner.on(" ").join(tmp);
                     commandsender.sendMessage(PIntro + ChatColor.WHITE + "Your prefix is " + ChatColor.BOLD + ps.GM.Prefix);
                 }
@@ -173,9 +210,8 @@ implements CommandExecutor {
             {
                 String rad = as[0];
                 String color = as[1];
-                List<String> tmp = Arrays.asList(as);
-                tmp.remove(0);
-                tmp.remove(0);
+                List<String> tmp = new ArrayList<String>();
+                tmp.addAll(Arrays.asList(as).subList(2, as.length));
                 try {
                     ps.GM.Radius = Integer.parseInt(rad);
                 }
@@ -197,8 +233,7 @@ implements CommandExecutor {
                 {
                     commandsender.sendMessage(PIntro + ChatColor.RED + "Wrong color specified.");
                 }
-                String s = Joiner.on(" ").join(tmp);
-                ps.GM.Prefix = s;
+                ps.GM.Prefix = Joiner.on(" ").join(tmp);
 
                 commandsender.sendMessage(PIntro + ps.GM.Color + ps.GM.Prefix + " " + "Example Text with radius set to " + ps.GM.Radius);
             }
@@ -217,43 +252,6 @@ implements CommandExecutor {
                 ChatColor.AQUA +
                 "/gms help";
         player.sendMessage(message);
-    }
-
-    private static void helpCommand(CommandSender sender) {
-        String message = PIntro +
-                ChatColor.WHITE +
-                "Usage:";
-        sender.sendMessage(message);
-        message = PIntro +
-                ChatColor.AQUA +
-                "/gms set <prefix|color|radius>" +
-                ChatColor.WHITE +
-                " sets options for gm speech.";
-        sender.sendMessage(message);
-        message = PIntro +
-                ChatColor.AQUA +
-                "/gms <radius> <color> <prefix>" +
-                ChatColor.WHITE +
-                " sets options for gm speech in one command.";
-        sender.sendMessage(message);
-        message = PIntro +
-                ChatColor.AQUA +
-                "/gms colors" +
-                ChatColor.WHITE +
-                " shows color list";
-        sender.sendMessage(message);
-        message = PIntro +
-                ChatColor.AQUA +
-                "/gms <on|off>" +
-                ChatColor.WHITE +
-                " starts and ends GM chat.";
-        sender.sendMessage(message);
-        message = PIntro +
-                ChatColor.AQUA +
-                "/gms my" +
-                ChatColor.WHITE +
-                " shows your current GM Speech settings.";
-        sender.sendMessage(message);
     }
 
     private void sendColorsListMessage(Player player) {

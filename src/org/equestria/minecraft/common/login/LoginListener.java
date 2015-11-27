@@ -11,17 +11,16 @@
  */
 package org.equestria.minecraft.common.login;
 
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import net.inkyquill.equestria.ca.CommonAbilities;
-import org.equestria.minecraft.common.checkers.BlockChecker;
 import org.equestria.minecraft.common.checkers.EffectsChecker;
 import org.equestria.minecraft.common.checkers.FoodEffectsChecker;
+
+import java.util.logging.Logger;
 
 public class LoginListener
 implements Listener {
@@ -36,7 +35,6 @@ implements Listener {
     public void onLogin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         FoodEffectsChecker.getInstance(this.plugin).callEvent(player);
-        BlockChecker.getInstance(this.plugin).checkEvent((Event)event, (JavaPlugin)this.plugin);
         EffectsChecker.getInstance(this.plugin).callEvent(player);
     }
 }
