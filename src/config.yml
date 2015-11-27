@@ -1,0 +1,32 @@
+replaceBlockHeight: 90.0
+replacedBlocksNames: SNOW_BLOCK, ICE, WOOL
+targetBlockName: WEB
+blockPlaceCheckEnabled: false
+blockBreakCheckEnabled: false
+blockUseCheckEnabled: false
+blockDropChanceCheckEnabled: false
+craftCheckEnabled: false
+replaceBlocksEnabled: false
+foodEffectsEnabled: true
+staminaEffectsEnabled: true
+deathEffectsEnabled: true
+weatherCheckEnabled: true
+stormDuration: 10
+thunderDuration: 10
+sunnyDuration: 10
+respawnCoordinates: 100:100:100
+2: SLOW 3, SLOW_DIGGING 3, WEAKNESS 3
+1: SLOW 4, SLOW_DIGGING 3, WEAKNESS 4
+0: SLOW 4, SLOW_DIGGING 3, WEAKNESS 4
+3: SLOW 2, SLOW_DIGGING 2, WEAKNESS 2
+4: SLOW 1, SLOW_DIGGING 1, WEAKNESS 1
+5: SLOW 1, SLOW_DIGGING 1, WEAKNESS 1
+7: 
+8: 
+9: 
+10: 
+DisableFlyLevels: 0 1 2 3 4 5
+DEATH_EFFECTS: SLOW 2,CONFUSION 2,WEAKNESS 3,SLOW_DIGGING 3
+URL: jdbc:mysql://192.168.1.103:3306/site_test3
+USER: root
+PASSWORD: J,kjvbcm100500hfp
