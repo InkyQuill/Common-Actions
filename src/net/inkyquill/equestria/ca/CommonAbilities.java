@@ -47,6 +47,7 @@ extends JavaPlugin {
         CASettings.L = getLogger();
         CASettings.L.info("Initializing...");
         CASettings.L.info("Loading configs...");
+        CASettings.LoadSettings();
         for(World w: getServer().getWorlds())
         {
             CASettings.GetWorldConfig(w);
@@ -112,7 +113,8 @@ extends JavaPlugin {
         manager.registerEvents(new PlayerChatHandler(),this);
         manager.registerEvents(new WorldListener(this),this);
 
-        new TimeUpdater().runTaskLater(this, 5);
+        if (CASettings.TimeEnabled)
+            new TimeUpdater().runTaskLater(this, 5);
         CASettings.L.info("Plugin successfully initialized...");
     }
 

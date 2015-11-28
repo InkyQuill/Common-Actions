@@ -12,12 +12,10 @@ import java.util.Date;
  */
 public class TimeSettings {
 
-    private long ChaosStarted;
     public TimeType Type;
     public double Latitude;
     public double Longitude;
     public double Offset;
-
     public String FixedSunrise;
     public String FixedSunset;
     public long CalculatedTime;
@@ -25,6 +23,8 @@ public class TimeSettings {
     public int ChaosDurationMin;
     public int ChaosDurationMax;
     public int ChaosCurrentDuration;
+    public Boolean Enabled;
+    private long ChaosStarted;
     private int CurrentTick;
 
     public TimeSettings()
@@ -34,6 +34,7 @@ public class TimeSettings {
         CurrentTick = 0;
         ChaosCurrentDuration = -1;
         ChaosStarted = new Date().getTime();
+        Enabled = false;
     }
 
     public void RealCalculate() {

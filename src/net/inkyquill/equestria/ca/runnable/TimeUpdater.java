@@ -29,11 +29,14 @@ extends BukkitRunnable {
 
 
     public void run() {
-        new TimeUpdater().runTaskLater(CASettings.plugin, 2);
+        if (CASettings.TimeEnabled)
+            new TimeUpdater().runTaskLater(CASettings.plugin, 2);
         this.setEquivalentTime();
     }
 
     public void setEquivalentTime() {
+
+
         List<World> worlds = CASettings.plugin.getServer().getWorlds();
 
         for (World w: worlds)

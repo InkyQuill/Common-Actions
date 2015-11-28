@@ -34,6 +34,12 @@ public class CelestialCommand implements CommandExecutor {
         else if(strings.length==1 && strings[0].toLowerCase().equals("save"))
         {
             handleSave(commandSender);
+        } else if (strings.length == 1 && strings[0].toLowerCase().equals("on")) {
+            CASettings.TimeEnabled = true;
+            commandSender.sendMessage(PIntro + ChatColor.WHITE + "Time management is now on!");
+        } else if (strings.length == 1 && strings[0].toLowerCase().equals("off")) {
+            CASettings.TimeEnabled = false;
+            commandSender.sendMessage(PIntro + ChatColor.WHITE + "Time management is now off!");
         }
         else if(strings.length==2)
         {
@@ -184,7 +190,7 @@ public class CelestialCommand implements CommandExecutor {
 
         WorldSettings w = CASettings.getWorldSettings(world);
         TimeSettings ts = w.time;
-        
+        sender.sendMessage(PIntro + ChatColor.WHITE + "Time management is " + (CASettings.TimeEnabled ? ChatColor.GREEN + "on" : (ChatColor.RED + "off")));
         sender.sendMessage(PIntro + ChatColor.WHITE + "World config for " + ChatColor.GREEN + world.getName());
         sender.sendMessage( ChatColor.WHITE +"Type: " + ChatColor.AQUA + ts.Type.name());
         if(ts.Type== TimeType.real)
@@ -224,5 +230,6 @@ public class CelestialCommand implements CommandExecutor {
         s.sendMessage(ChatColor.WHITE + "the options are: " + ChatColor.AQUA + "type, lat, long, offset, sunrise, sunset, ticks, chaosmin, chaosmax");
         s.sendMessage(ChatColor.WHITE + "the types are: " + ChatColor.AQUA + "mine, real, fixed, day, night, chaos");
         s.sendMessage(ChatColor.AQUA + "/timemanager save " + ChatColor.WHITE + "saves all world settings");
+        s.sendMessage(ChatColor.AQUA + "/timemanager <on|off> " + ChatColor.WHITE + "enables/disables global time management");
     }
 }

@@ -28,6 +28,7 @@ public class CASettings
     public static CommonAbilities plugin;
     public static Logger L;
     public static RCsettings chat;
+    public static Boolean TimeEnabled;
     static Map<String, WorldSettings> W;
     static Map<String, PlayerSettings> P;
 
@@ -160,6 +161,14 @@ public class CASettings
         L.info("Saved all players!");
         saveRCConfig();
         L.info("Saved RealChat config.");
+        saveMainConfig();
+        L.info("Saved main config.");
+    }
+
+    private static void saveMainConfig() {
+        FileConfiguration config = plugin.getConfig();
+        config.set("time.enabled", TimeEnabled);
+        plugin.saveConfig();
     }
 
     public static void loadRCConfig() {
@@ -216,6 +225,10 @@ public class CASettings
         config.save(new File(plugin.getDataFolder(), "realisticchat.yml"));
     }
 
+    public static void LoadSettings() {
+        FileConfiguration config = plugin.getConfig();
+        TimeEnabled = config.getBoolean("time.enabled");
+    }
 
     private static ChatColor getConfigColor(FileConfiguration config, String option, ChatColor yellow) {
         try {
