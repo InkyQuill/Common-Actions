@@ -9,16 +9,15 @@
  *  org.bukkit.event.player.PlayerJoinEvent
  *  org.bukkit.plugin.java.JavaPlugin
  */
-package org.equestria.minecraft.common.login;
+package net.inkyquill.equestria.ca.handlers;
 
 import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.checkers.EffectsChecker;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.equestria.minecraft.common.checkers.EffectsChecker;
-import org.equestria.minecraft.common.checkers.FoodEffectsChecker;
 
 import java.util.logging.Logger;
 
@@ -34,7 +33,6 @@ implements Listener {
     @EventHandler
     public void onLogin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        FoodEffectsChecker.getInstance(this.plugin).callEvent(player);
         EffectsChecker.getInstance(this.plugin).callEvent(player);
     }
 }

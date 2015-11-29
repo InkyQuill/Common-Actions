@@ -17,6 +17,7 @@ package net.inkyquill.equestria.ca;
 import net.inkyquill.equestria.ca.commands.CelestialCommand;
 import net.inkyquill.equestria.ca.commands.GMCommand;
 import net.inkyquill.equestria.ca.commands.WeatherCommand;
+import net.inkyquill.equestria.ca.handlers.LoginListener;
 import net.inkyquill.equestria.ca.handlers.PlayerChatHandler;
 import net.inkyquill.equestria.ca.handlers.WorldListener;
 import net.inkyquill.equestria.ca.runnable.TimeUpdater;
@@ -31,9 +32,7 @@ import org.equestria.minecraft.common.commands.EffectsCommandExecutor;
 import org.equestria.minecraft.common.commands.GameMasterCommandExecutor;
 import org.equestria.minecraft.common.commands.MonsterCommandExecutor;
 import org.equestria.minecraft.common.damage.DamageListener;
-import org.equestria.minecraft.common.food.FoodListener;
 import org.equestria.minecraft.common.items.ItemsListener;
-import org.equestria.minecraft.common.login.LoginListener;
 import org.equestria.minecraft.common.monsters.MonstersListener;
 
 import java.util.logging.Logger;
@@ -60,9 +59,6 @@ extends JavaPlugin {
         this.saveConfig();
         this.reloadConfig();
 
-        CASettings.L.info("Growing food...");
-        FoodListener foodListener = new FoodListener(this);
-        Bukkit.getServer().getPluginManager().registerEvents(foodListener, this);
         CASettings.L.info("Watching new ponies...");
         LoginListener loginListener = new LoginListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(loginListener, this);
@@ -109,6 +105,7 @@ extends JavaPlugin {
         manager.addPermission(CASettings.weather);
         manager.addPermission(CASettings.gm);
         manager.addPermission(CASettings.time);
+        manager.addPermission(CASettings.effects);
         CASettings.L.info("Deploying bugs...");
         manager.registerEvents(new PlayerChatHandler(),this);
         manager.registerEvents(new WorldListener(this),this);
@@ -120,27 +117,16 @@ extends JavaPlugin {
 
     @Override
     public void onDisable(){
-        getServer().getPluginManager().removePermission(CASettings.weather);
-        getServer().getPluginManager().removePermission(CASettings.gm);
-        getServer().getPluginManager().removePermission(CASettings.time);
+        PluginManager manager = getServer().getPluginManager();
+        manager.removePermission(CASettings.weather);
+        manager.removePermission(CASettings.gm);
+        manager.removePermission(CASettings.time);
+        manager.removePermission(CASettings.effects);
         try{CASettings.SaveConfigs();}
         catch(Exception e){log.info("Couldn't save configs: " + e.getMessage());}
         CASettings.L.info("Plugin successfully deinitialized...");
     }
 
-    public int getConfigItemId(String s, int i) {
-        String s1 = this.getConfig().getString(s);
-        if (s1 == null) {
-            return i;
-        }
-        try {
-            return Integer.parseInt(s1, 10);
-        }
-        catch (NumberFormatException numberformatexception) {
-            this.log.warning("Bad item id: " + s1 + ", using default: " + i);
-            return i;
-        }
-    }
 
     public String getConfigItem(String s) {
         return this.getConfig().getString(s);

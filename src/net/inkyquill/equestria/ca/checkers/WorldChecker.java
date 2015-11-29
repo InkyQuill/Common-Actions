@@ -10,8 +10,7 @@
  */
 package net.inkyquill.equestria.ca.checkers;
 
-import java.util.logging.Logger;
-
+import net.inkyquill.equestria.ca.CommonAbilities;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.WeatherType;
 import net.inkyquill.equestria.ca.settings.WorldSettings;
@@ -20,13 +19,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import net.inkyquill.equestria.ca.CommonAbilities;
-import org.equestria.minecraft.common.checkers.EventChecker;
+
+import java.util.logging.Logger;
 
 public class WorldChecker
 implements EventChecker {
-    private static WorldChecker instance;
     private static final Logger log;
+    private static WorldChecker instance;
+
+    static {
+        log = Logger.getLogger("WorldChecker");
+    }
+
     private CommonAbilities plugin;
 
     private WorldChecker(CommonAbilities plugin) {
@@ -79,10 +83,6 @@ implements EventChecker {
 
     @Override
     public void callEvent(Player player) {
-    }
-
-    static {
-        log = Logger.getLogger("WorldChecker");
     }
 }
 

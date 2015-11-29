@@ -10,39 +10,116 @@
  */
 package org.equestria.minecraft.common.commands;
 
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import net.inkyquill.equestria.ca.CommonAbilities;
 import org.equestria.minecraft.common.gamemaster.GameMasterController;
+
+import java.util.logging.Logger;
 
 public class GameMasterCommandExecutor
 implements CommandExecutor {
     public static final Logger log = Logger.getLogger("GameMasterCommandExecutor");
-    private CommonAbilities plugin;
-    public static final String MASTER_COMMAND = "gmaster";
-    public static final String MASTER = "[gm]";
     public static final ChatColor YELLOW_COLOR = ChatColor.YELLOW;
     public static final ChatColor GREEN_COLOR = ChatColor.GREEN;
-    public static final ChatColor WHITE_COLOR = ChatColor.WHITE;
     public static final ChatColor RED_COLOR = ChatColor.RED;
-    private static final String HELP_COMMAND = "help";
-    private static final String SAY_WORLD = "say";
-    private static final String SET_RADIUS = "setMsgRadius";
-    private static final String SET_PREFIX = "setMsgPrefix";
-    private static final String SET_COLOR = "setMsgColor";
-    private static final String GET_COLORS = "getColorsList";
-    private static final String ADD_ITEM_MESSAGE = "addItemMsg";
-    private static final String DELETE_ITEM_MESSAGE = "deleteItemMsg";
-    private static final String ADD_ITEM_UNIQ_MESSAGE = "addItemUniqMsg";
-    private static final String SET_ITEM_COLOR = "setItemMsgColor";
-    private static final String SET_ITEM_PREFIX = "setItemMsgPrefix";
+    private CommonAbilities plugin;
+
+    //TODO: Rework ItemCommands.
 
     public GameMasterCommandExecutor(CommonAbilities commonAbilities) {
         this.plugin = commonAbilities;
+    }
+
+    private static void helpCommand(CommandSender sender) {
+        StringBuilder message = new StringBuilder();
+        message.append("[World] ");
+        message.append(GREEN_COLOR);
+        message.append("Help Menu!");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /say text ");
+        message.append(YELLOW_COLOR);
+        message.append("prints given text to all players within defined radius as World message.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /setMsgRadius radius ");
+        message.append(YELLOW_COLOR);
+        message.append("set Radius for World message.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /setMsgColor color ");
+        message.append(YELLOW_COLOR);
+        message.append("set Color for World message.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /getColorsList ");
+        message.append(YELLOW_COLOR);
+        message.append("show list of availible colors and effects.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /setMsgPrefix ");
+        message.append(YELLOW_COLOR);
+        message.append("set Prefix for World message.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /addItemMsg action(HOLD, PICKUP, USE) message");
+        message.append(YELLOW_COLOR);
+        message.append("add message for specificItem on action.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /addItemUniqMsg action(HOLD, PICKUP, USE) message");
+        message.append(YELLOW_COLOR);
+        message.append("add message for unique specificItem on action.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /setItemMsgColor action(HOLD, PICKUP, USE) color");
+        message.append(YELLOW_COLOR);
+        message.append("set message color for specific item.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /setItemMsgPrefix action(HOLD, PICKUP, USE) prefix");
+        message.append(YELLOW_COLOR);
+        message.append("set message prefix for specific item.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[gm]");
+        message.append(GREEN_COLOR);
+        message.append(" /deleteItemMsg action(HOLD, PICKUP, USE)");
+        message.append(YELLOW_COLOR);
+        message.append("delete message for specific item.");
+        sender.sendMessage(message.toString());
     }
 
     public boolean onCommand(CommandSender commandsender, Command command, String s, String[] as) {
@@ -90,19 +167,17 @@ implements CommandExecutor {
                 try {
                     int radius = Integer.parseInt(radiusStr);
                     GameMasterController.getInstance(this.plugin).setRadius(radius, commandsender.getName());
-                    StringBuilder message = new StringBuilder();
-                    message.append("[World] ");
-                    message.append((Object)GREEN_COLOR);
-                    message.append("Radius changed to ");
-                    message.append(radiusStr);
-                    commandsender.sendMessage(message.toString());
+                    String message = "[World] " +
+                            GREEN_COLOR +
+                            "Radius changed to " +
+                            radiusStr;
+                    commandsender.sendMessage(message);
                 }
                 catch (NumberFormatException ex) {
-                    StringBuilder message = new StringBuilder();
-                    message.append("[World] ");
-                    message.append((Object)YELLOW_COLOR);
-                    message.append("Enter valid message radius");
-                    commandsender.sendMessage(message.toString());
+                    String message = "[World] " +
+                            YELLOW_COLOR +
+                            "Enter valid message radius";
+                    commandsender.sendMessage(message);
                 }
             } else {
                 this.handleNoArgsCommand(commandsender);
@@ -137,14 +212,14 @@ implements CommandExecutor {
                 }
                 GameMasterController.getInstance(this.plugin).addMessageToItem(action, phraseBuilder.toString(), commandsender, mode.equals("addItemUniqMsg"));
             } else {
-                GameMasterCommandExecutor.helpCommand((CommandSender)commandsender);
+                GameMasterCommandExecutor.helpCommand(commandsender);
             }
         } else if (mode.equals("deleteItemMsg")) {
             if (as.length > 1) {
                 String action = as[1];
                 GameMasterController.getInstance(this.plugin).removeMessageFromItem(action, commandsender);
             } else {
-                GameMasterCommandExecutor.helpCommand((CommandSender)commandsender);
+                GameMasterCommandExecutor.helpCommand(commandsender);
             }
         } else if (mode.equals("setItemMsgColor")) {
             if (as.length > 1) {
@@ -173,7 +248,7 @@ implements CommandExecutor {
                 this.handleNoArgsCommand(commandsender);
             }
         } else {
-            GameMasterCommandExecutor.helpCommand((CommandSender)commandsender);
+            GameMasterCommandExecutor.helpCommand(commandsender);
         }
         return true;
     }
@@ -181,118 +256,28 @@ implements CommandExecutor {
     private void handleNoArgsCommand(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("[World] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
+        message.append(YELLOW_COLOR);
         message.append("- To view help, do /gm ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("help");
         player.sendMessage(message.toString());
     }
 
-    private static void helpCommand(CommandSender sender) {
-        StringBuilder message = new StringBuilder();
-        message.append("[World] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("Help Menu!");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /say text ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("prints given text to all players within defined radius as World message.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /setMsgRadius radius ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("set Radius for World message.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /setMsgColor color ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("set Color for World message.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /getColorsList ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("show list of availible colors and effects.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /setMsgPrefix ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("set Prefix for World message.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /addItemMsg action(HOLD, PICKUP, USE) message");
-        message.append((Object)YELLOW_COLOR);
-        message.append("add message for specificItem on action.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /addItemUniqMsg action(HOLD, PICKUP, USE) message");
-        message.append((Object)YELLOW_COLOR);
-        message.append("add message for unique specificItem on action.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /setItemMsgColor action(HOLD, PICKUP, USE) color");
-        message.append((Object)YELLOW_COLOR);
-        message.append("set message color for specific item.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /setItemMsgPrefix action(HOLD, PICKUP, USE) prefix");
-        message.append((Object)YELLOW_COLOR);
-        message.append("set message prefix for specific item.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[gm]");
-        message.append((Object)GREEN_COLOR);
-        message.append(" /deleteItemMsg action(HOLD, PICKUP, USE)");
-        message.append((Object)YELLOW_COLOR);
-        message.append("delete message for specific item.");
-        sender.sendMessage(message.toString());
-    }
-
     private void sendPermissionErrorMessage(Player player) {
-        StringBuilder message = new StringBuilder();
-        message.append((Object)RED_COLOR);
-        message.append("You don't have permissions to this!");
-        player.sendMessage(message.toString());
+        String message = String.valueOf(RED_COLOR) +
+                "You don't have permissions to this!";
+        player.sendMessage(message);
     }
 
     private void sendColorsListMessage(Player player) {
-        ChatColor[] colors;
         StringBuilder message = new StringBuilder();
         message.append("[World] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("Available colors - ");
-        for (ChatColor color : colors = ChatColor.values()) {
+        for (ChatColor color : ChatColor.values()) {
             message.append(color.name());
             message.append(" ");
         }
@@ -303,23 +288,22 @@ implements CommandExecutor {
         StringBuilder message = new StringBuilder();
         message.append("[World] ");
         if (correctColor) {
-            message.append((Object)GREEN_COLOR);
+            message.append(GREEN_COLOR);
             message.append("Color changed to ");
             message.append(color);
         } else {
-            message.append((Object)YELLOW_COLOR);
+            message.append(YELLOW_COLOR);
             message.append("Enter valid color name");
         }
         player.sendMessage(message.toString());
     }
 
     private void sendPrefixMessage(Player player, String prefix) {
-        StringBuilder message = new StringBuilder();
-        message.append("[World] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("Prefix changed to ");
-        message.append(prefix);
-        player.sendMessage(message.toString());
+        String message = "[World] " +
+                GREEN_COLOR +
+                "Prefix changed to " +
+                prefix;
+        player.sendMessage(message);
     }
 }
 

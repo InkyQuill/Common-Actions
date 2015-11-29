@@ -1,21 +1,8 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.entity.EntityType
- *  org.bukkit.entity.LivingEntity
- *  org.bukkit.entity.Player
- *  org.bukkit.event.Event
- *  org.bukkit.event.EventHandler
- *  org.bukkit.event.Listener
- *  org.bukkit.event.entity.EntityDamageByEntityEvent
- *  org.bukkit.event.entity.EntityDamageEvent
- *  org.bukkit.event.entity.EntityDeathEvent
- *  org.bukkit.plugin.java.JavaPlugin
- */
+
 package org.equestria.minecraft.common.damage;
 
 import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.checkers.EffectsChecker;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.equestria.minecraft.common.checkers.EffectsChecker;
 import org.equestria.minecraft.common.checkers.FoodEffectsChecker;
 
 public class DamageListener

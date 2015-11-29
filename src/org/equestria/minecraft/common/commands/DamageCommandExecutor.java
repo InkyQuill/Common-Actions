@@ -1,43 +1,60 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.ChatColor
- *  org.bukkit.Location
- *  org.bukkit.World
- *  org.bukkit.command.Command
- *  org.bukkit.command.CommandExecutor
- *  org.bukkit.command.CommandSender
- *  org.bukkit.entity.Player
- */
+
 package org.equestria.minecraft.common.commands;
 
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import net.inkyquill.equestria.ca.CommonAbilities;
 import org.equestria.minecraft.common.damage.DamageController;
+
+import java.util.logging.Logger;
 
 public class DamageCommandExecutor
 implements CommandExecutor {
     public static final Logger log = Logger.getLogger("DamageCommandExecutor");
-    private CommonAbilities plugin;
-    public static final String DAMAGE_COMMAND = "damageController";
-    private static final String DAMAGE_PREFIX = "[damageController] ";
     public static final ChatColor YELLOW_COLOR = ChatColor.YELLOW;
     public static final ChatColor GREEN_COLOR = ChatColor.GREEN;
     public static final ChatColor RED_COLOR = ChatColor.RED;
-    private static final String HELP_COMMAND = "help";
-    private static final String SET_RESPAWN_MODE = "setRespawn";
-    private static final String VIEW_RESPAWN_MODE = "viewRespawn";
-    private static final String TELEPORT_MODE = "teleportToRespawn";
+    private CommonAbilities plugin;
+
 
     public DamageCommandExecutor(CommonAbilities commonAbilities) {
         this.plugin = commonAbilities;
+    }
+
+    private static void helpCommand(CommandSender sender) {
+        StringBuilder message = new StringBuilder();
+        message.append("[damageController] ");
+        message.append(GREEN_COLOR);
+        message.append("Help Menu!");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[damageController] ");
+        message.append(GREEN_COLOR);
+        message.append("/damageController setRespawn \u0445:y:z ");
+        message.append(YELLOW_COLOR);
+        message.append("set respawn point to xyz coordinates.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[damageController] ");
+        message.append(GREEN_COLOR);
+        message.append("/damageController viewRespawn ");
+        message.append(YELLOW_COLOR);
+        message.append("prints current respawn coordinates.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[damageController] ");
+        message.append(GREEN_COLOR);
+        message.append("/damageController teleportToRespawn ");
+        message.append(YELLOW_COLOR);
+        message.append("teleports you to respawn point.");
+        sender.sendMessage(message.toString());
     }
 
     public boolean onCommand(CommandSender commandsender, Command command, String s, String[] as) {
@@ -69,7 +86,7 @@ implements CommandExecutor {
 
     private boolean handleSetRespCommand(Player commandsender, String[] as) {
         if (as.length != 2) {
-            DamageCommandExecutor.helpCommand((CommandSender)commandsender);
+            DamageCommandExecutor.helpCommand(commandsender);
             return true;
         }
         String respawnLocation = as[1];
@@ -99,10 +116,10 @@ implements CommandExecutor {
     private void sendRespawnSetMessage(Player player, String respCoords) {
         StringBuilder message = new StringBuilder();
         message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("Respawn location changed to ");
         message.append(respCoords);
         player.sendMessage(message.toString());
@@ -111,10 +128,10 @@ implements CommandExecutor {
     private void sendRespMessage(Player player, String location) {
         StringBuilder message = new StringBuilder();
         message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("Current respawn location -  ");
         message.append(location);
         player.sendMessage(message.toString());
@@ -123,10 +140,10 @@ implements CommandExecutor {
     private void sendTeleportMessage(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("You has been teleported to respawn location.");
         player.sendMessage(message.toString());
     }
@@ -134,53 +151,20 @@ implements CommandExecutor {
     private void handleNoArgsCommand(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
+        message.append(YELLOW_COLOR);
         message.append("- To view help, do /damageController ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("help");
         player.sendMessage(message.toString());
     }
 
-    private static void helpCommand(CommandSender sender) {
-        StringBuilder message = new StringBuilder();
-        message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("Help Menu!");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("/damageController setRespawn \u0445:y:z ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("set respawn point to xyz coordinates.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("/damageController viewRespawn ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("prints current respawn coordinates.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[damageController] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("/damageController teleportToRespawn ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("teleports you to respawn point.");
-        sender.sendMessage(message.toString());
-    }
-
     private void sendPermissionErrorMessage(Player player) {
-        StringBuilder message = new StringBuilder();
-        message.append((Object)RED_COLOR);
-        message.append("You don't have permissions to this!");
-        player.sendMessage(message.toString());
+        String message = String.valueOf(RED_COLOR) +
+                "You don't have permissions to this!";
+        player.sendMessage(message);
     }
 }
 

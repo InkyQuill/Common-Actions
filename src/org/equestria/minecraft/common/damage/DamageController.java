@@ -1,30 +1,24 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.Location
- *  org.bukkit.World
- *  org.bukkit.configuration.file.FileConfiguration
- *  org.bukkit.entity.Entity
- *  org.bukkit.entity.Player
- *  org.bukkit.event.entity.EntityDamageEvent
- */
+
 package org.equestria.minecraft.common.damage;
 
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.checkers.EffectsChecker;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
-import net.inkyquill.equestria.ca.CommonAbilities;
-import org.equestria.minecraft.common.checkers.EffectsChecker;
+
+import java.util.logging.Logger;
 
 public class DamageController {
-    private CommonAbilities plugin;
-    private static final String DEATH_CHECK_ENABLED = "deathEffectsEnabled";
-    private static final String RESPAWN_COORDINATES = "respawnCoordinates";
-    private static DamageController instance;
     private static final Logger log;
+    private static DamageController instance;
+
+    static {
+        log = Logger.getLogger("DamageController");
+    }
+
+    private CommonAbilities plugin;
     private Location respawnLocation;
     private Object synchObj = new Object();
 
@@ -99,13 +93,9 @@ public class DamageController {
         Object object = this.synchObj;
         synchronized (object) {
             this.respawnLocation = this.parseLocation(respawnLocationStr, world, defaultLocation);
-            this.plugin.getConfig().set("respawnCoordinates", (Object)respawnLocationStr);
+            this.plugin.getConfig().set("respawnCoordinates", respawnLocationStr);
             this.plugin.saveConfig();
         }
-    }
-
-    static {
-        log = Logger.getLogger("DamageController");
     }
 }
 

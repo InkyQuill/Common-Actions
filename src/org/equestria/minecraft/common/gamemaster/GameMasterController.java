@@ -16,21 +16,7 @@
  */
 package org.equestria.minecraft.common.gamemaster;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,19 +25,28 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
-import net.inkyquill.equestria.ca.CommonAbilities;
+
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameMasterController {
-    private CommonAbilities plugin;
-    private static GameMasterController instance;
     private static final Logger log;
+    public static String ITEMS_FILE;
+    private static GameMasterController instance;
+
+    static {
+        log = Logger.getLogger("GameMasterController");
+        ITEMS_FILE = "/ItemActions.ser";
+    }
+
+    private CommonAbilities plugin;
     private Map<String, WorldMessageParams> paramsMap = new HashMap<String, WorldMessageParams>();
     private Map<Class, List<ItemMessage>> itemsMap = new HashMap<Class, List<ItemMessage>>();
     private String ACTION_HOLD = "HOLD";
     private String ACTION_PICKUP = "PICKUP";
     private String ACTION_USE = "USE";
-    public static String ITEMS_FILE;
-    public static final String WORLD_PREFIX = "[World] ";
 
     private GameMasterController(CommonAbilities plugin) {
         this.plugin = plugin;
@@ -98,11 +93,10 @@ public class GameMasterController {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
-            Map savedItems;
             File file = new File(this.plugin.getDataFolder() + ITEMS_FILE);
             fis = new FileInputStream(file);
             ois = new ObjectInputStream(fis);
-            this.itemsMap = savedItems = (Map)ois.readObject();
+            this.itemsMap = (Map) ois.readObject();
             ois.close();
             fis.close();
         }
@@ -134,7 +128,7 @@ public class GameMasterController {
         Map<String, WorldMessageParams> map = this.paramsMap;
         synchronized (map) {
             try {
-                ChatColor color = ChatColor.valueOf((String)colorStr);
+                ChatColor color = ChatColor.valueOf(colorStr);
                 WorldMessageParams param = this.paramsMap.get(callerName);
                 if (param == null) {
                     param = this.initMessageParam();
@@ -184,25 +178,25 @@ public class GameMasterController {
     public void sendWorldMessage(String message, Player caller) {
         Map<String, WorldMessageParams> map = this.paramsMap;
         synchronized (map) {
-            Player[] players;
             StringBuilder phraseBuilder = new StringBuilder();
             WorldMessageParams param = this.paramsMap.get(caller.getName());
             if (param == null) {
                 param = this.initMessageParam();
             }
             this.paramsMap.put(caller.getName(), param);
-            phraseBuilder.append((Object)param.getColor());
+            phraseBuilder.append(param.getColor());
             phraseBuilder.append(param.getWorldPrefix());
-            phraseBuilder.append((Object)param.getColor());
+            phraseBuilder.append(param.getColor());
             phraseBuilder.append(message);
             int radius = param.getRadius();
-            for (Player recipient : players = Bukkit.getOnlinePlayers()) {
-                double distance;
-                if (caller.equals((Object)recipient)) {
+            for (Player recipient : Bukkit.getOnlinePlayers()) {
+
+                if (caller.equals(recipient)) {
                     caller.sendMessage(phraseBuilder.toString());
                     continue;
                 }
-                if (!caller.getWorld().equals((Object)recipient.getWorld()) || (distance = caller.getLocation().distance(recipient.getLocation())) > (double)radius) continue;
+                if (!caller.getWorld().equals(recipient.getWorld()) || (caller.getLocation().distance(recipient.getLocation())) > (double) radius)
+                    continue;
                 recipient.sendMessage(phraseBuilder.toString());
             }
         }
@@ -212,7 +206,7 @@ public class GameMasterController {
         Map<Class, List<ItemMessage>> map = this.itemsMap;
         synchronized (map) {
             ItemStack item = caller.getItemInHand();
-            String id = StringUtils.join((Object[])new Object[]{item.getTypeId(), item.getDurability()}, (String)":");
+            String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
             Class actionClass = this.getActionClass(action);
             if (actionClass != null) {
                 List<ItemMessage> list = this.getItemsForActionClass(actionClass);
@@ -236,7 +230,7 @@ public class GameMasterController {
                 item.setDurability((short)rand.nextInt(600));
                 item.getData().setData((byte)item.getDurability());
             }
-            String id = StringUtils.join((Object[])new Object[]{item.getTypeId(), item.getDurability()}, (String)":");
+            String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
             WorldMessageParams itemMessageParam = this.initMessageParam();
             ItemMessage itemMessage = new ItemMessage();
             itemMessage.setMessageParameter(itemMessageParam);
@@ -283,10 +277,10 @@ public class GameMasterController {
         Map<Class, List<ItemMessage>> map = this.itemsMap;
         synchronized (map) {
             try {
-                ChatColor color = ChatColor.valueOf((String)colorStr);
+                ChatColor color = ChatColor.valueOf(colorStr);
                 Class actionClass = this.getActionClass(action);
                 ItemStack item = caller.getItemInHand();
-                String id = StringUtils.join((Object[])new Object[]{item.getTypeId(), item.getDurability()}, (String)":");
+                String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
                 if (actionClass != null) {
                     List<ItemMessage> list = this.getItemsForActionClass(actionClass);
                     boolean notExist = true;
@@ -314,7 +308,7 @@ public class GameMasterController {
         synchronized (map) {
             Class actionClass = this.getActionClass(action);
             ItemStack item = caller.getItemInHand();
-            String id = StringUtils.join((Object[])new Object[]{item.getTypeId(), item.getDurability()}, (String)":");
+            String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
             if (actionClass != null) {
                 List<ItemMessage> list = this.getItemsForActionClass(actionClass);
                 boolean notExist = true;
@@ -374,16 +368,11 @@ public class GameMasterController {
     private void sendMessage(ItemMessage message, Player receiver) {
         WorldMessageParams param = message.getMessageParameter();
         StringBuilder phraseBuilder = new StringBuilder();
-        phraseBuilder.append((Object)param.getColor());
+        phraseBuilder.append(param.getColor());
         phraseBuilder.append(param.getWorldPrefix());
-        phraseBuilder.append((Object)param.getColor());
+        phraseBuilder.append(param.getColor());
         phraseBuilder.append(message.getMessage());
         receiver.sendMessage(phraseBuilder.toString());
-    }
-
-    static {
-        log = Logger.getLogger("GameMasterController");
-        ITEMS_FILE = "/ItemActions.ser";
     }
 }
 

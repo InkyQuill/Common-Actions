@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -25,6 +26,8 @@ public class CASettings
     public static final Permission weather;
     public static final Permission gm;
     public static final Permission time;
+    public static final Permission effects;
+
     public static CommonAbilities plugin;
     public static Logger L;
     public static RCsettings chat;
@@ -36,6 +39,7 @@ public class CASettings
         weather = new Permission("ca.weather");
         gm = new Permission("ca.gms");
         time = new Permission("ca.time");
+        effects = new Permission("ca.effects");
         W = new HashMap<String, WorldSettings>();
         P = new HashMap<String, PlayerSettings>();
     }
@@ -86,6 +90,14 @@ public class CASettings
         }
         p.GM.Prefix = config.getString(pname+".gm.prefix","World");
         p.GM.Radius = config.getInt(pname+".gm.radius",100);
+
+        List<String> eff = config.getStringList(pname + ".effects");
+        for (String x : eff) {
+            Effect e = Effect.getFromString(x);
+            if (e != null)
+                p.Effects.add(e);
+        }
+
         return p;
     }
 
@@ -156,6 +168,12 @@ public class CASettings
             config.set(p+".gm.color",P.get(p).GM.Color.name());
             config.set(p+".gm.prefix",P.get(p).GM.Prefix);
             config.set(p+".gm.radius",P.get(p).GM.Radius);
+
+            ArrayList<String> st = new ArrayList<String>();
+            for (Effect x : P.get(p).Effects) {
+                st.add(x.toString());
+            }
+            config.set(p + ".effects", st);
         }
         config.save(new File(plugin.getDataFolder(),"players.yml"));
         L.info("Saved all players!");

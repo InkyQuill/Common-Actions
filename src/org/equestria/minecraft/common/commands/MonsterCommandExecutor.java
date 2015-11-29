@@ -1,43 +1,60 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.ChatColor
- *  org.bukkit.Server
- *  org.bukkit.command.Command
- *  org.bukkit.command.CommandExecutor
- *  org.bukkit.command.CommandSender
- *  org.bukkit.entity.EntityType
- *  org.bukkit.entity.Player
- */
+
 package org.equestria.minecraft.common.commands;
 
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import net.inkyquill.equestria.ca.CommonAbilities;
 import org.equestria.minecraft.common.checkers.MonsterChecker;
+
+import java.util.logging.Logger;
 
 public class MonsterCommandExecutor
 implements CommandExecutor {
     public static final Logger log = Logger.getLogger("MonsterCommandExecutor");
-    private CommonAbilities plugin;
-    public static final String ADD_MONSTER_COMMAND = "restrictTarget";
-    private static final String RESTRICT_PREFIX = "[restrictTarget] ";
     public static final ChatColor YELLOW_COLOR = ChatColor.YELLOW;
     public static final ChatColor GREEN_COLOR = ChatColor.GREEN;
     public static final ChatColor RED_COLOR = ChatColor.RED;
-    private static final String HELP_COMMAND = "help";
-    private static final String ADD_MODE = "add";
-    private static final String REMOVE_MODE = "remove";
-    private static final String SHOW_TYPES_MODE = "showTypes";
+    private CommonAbilities plugin;
+
 
     public MonsterCommandExecutor(CommonAbilities commonAbilities) {
         this.plugin = commonAbilities;
+    }
+
+    private static void helpCommand(CommandSender sender) {
+        StringBuilder message = new StringBuilder();
+        message.append("[restrictTarget] ");
+        message.append(GREEN_COLOR);
+        message.append("Help Menu!");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[restrictTarget] ");
+        message.append(GREEN_COLOR);
+        message.append("/restrictTarget add PlayerName MobType ");
+        message.append(YELLOW_COLOR);
+        message.append("add this monster type to restricted list for player.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[restrictTarget] ");
+        message.append(GREEN_COLOR);
+        message.append("/restrictTarget remove PlayerName MobType ");
+        message.append(YELLOW_COLOR);
+        message.append("remove this monster type from restricted list for player.");
+        sender.sendMessage(message.toString());
+        message = new StringBuilder();
+        message.append(YELLOW_COLOR);
+        message.append("[restrictTarget] ");
+        message.append(GREEN_COLOR);
+        message.append("/restrictTarget showTypes ");
+        message.append(YELLOW_COLOR);
+        message.append("print all available monster types.");
+        sender.sendMessage(message.toString());
     }
 
     public boolean onCommand(CommandSender commandsender, Command command, String s, String[] as) {
@@ -69,7 +86,7 @@ implements CommandExecutor {
         String playerName = as[1];
         String mobType = as[2];
         Player player = commandsender.getServer().getPlayer(playerName);
-        EntityType type = EntityType.fromName((String)mobType);
+        EntityType type = EntityType.fromName(mobType);
         if (player == null) {
             this.sendInvalidPlayerMessage((Player)commandsender);
             return true;
@@ -93,10 +110,10 @@ implements CommandExecutor {
     private void sendMonsterAddedMessage(Player player, String monsterType, String playerName) {
         StringBuilder message = new StringBuilder();
         message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append(monsterType);
         message.append(" restricted to target player ");
         message.append(playerName);
@@ -106,10 +123,10 @@ implements CommandExecutor {
     private void sendMonsterRemovedMessage(Player player, String monsterType, String playerName) {
         StringBuilder message = new StringBuilder();
         message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append(monsterType);
         message.append(" allowed to target player ");
         message.append(playerName);
@@ -119,51 +136,19 @@ implements CommandExecutor {
     private void handleNoArgsCommand(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
+        message.append(YELLOW_COLOR);
         message.append("- To view help, do /restrictTarget ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("help");
         player.sendMessage(message.toString());
     }
 
-    private static void helpCommand(CommandSender sender) {
-        StringBuilder message = new StringBuilder();
-        message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("Help Menu!");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("/restrictTarget add PlayerName MobType ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("add this monster type to restricted list for player.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("/restrictTarget remove PlayerName MobType ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("remove this monster type from restricted list for player.");
-        sender.sendMessage(message.toString());
-        message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
-        message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
-        message.append("/restrictTarget showTypes ");
-        message.append((Object)YELLOW_COLOR);
-        message.append("print all available monster types.");
-        sender.sendMessage(message.toString());
-    }
-
     private void sendPermissionErrorMessage(Player player) {
         StringBuilder message = new StringBuilder();
-        message.append((Object)RED_COLOR);
+        message.append(RED_COLOR);
         message.append("You don't have permissions to this!");
         player.sendMessage(message.toString());
     }
@@ -171,13 +156,13 @@ implements CommandExecutor {
     private void sendAllMonstersMessage(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append("All monster types:");
         player.sendMessage(message.toString());
         message = new StringBuilder();
-        message.append((Object)YELLOW_COLOR);
+        message.append(YELLOW_COLOR);
         message.append("[restrictTarget] ");
-        message.append((Object)GREEN_COLOR);
+        message.append(GREEN_COLOR);
         message.append(EntityType.ZOMBIE.getName());
         message.append(", ");
         message.append(EntityType.CREEPER.getName());
@@ -217,7 +202,7 @@ implements CommandExecutor {
     private void sendInvalidPlayerMessage(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("[restrictTarget] ");
-        message.append((Object)YELLOW_COLOR);
+        message.append(YELLOW_COLOR);
         message.append("Player does not exist");
         player.sendMessage(message.toString());
     }
@@ -225,7 +210,7 @@ implements CommandExecutor {
     private void sendInvalidMonsterTypeMessage(Player player) {
         StringBuilder message = new StringBuilder();
         message.append("[restrictTarget] ");
-        message.append((Object)YELLOW_COLOR);
+        message.append(YELLOW_COLOR);
         message.append("Wrong monster type.");
         player.sendMessage(message.toString());
     }

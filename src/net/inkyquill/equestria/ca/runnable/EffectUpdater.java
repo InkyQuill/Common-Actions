@@ -5,20 +5,19 @@
  *  org.bukkit.Bukkit
  *  org.bukkit.entity.Player
  */
-package org.equestria.minecraft.common.repeaters;
+package net.inkyquill.equestria.ca.runnable;
 
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.checkers.EventChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.equestria.minecraft.common.checkers.EventChecker;
 
-public class PotionEffectRepeater
+public class EffectUpdater
 implements Runnable {
-    public static final Logger log = Logger.getLogger("PotionEffectRepeater");
+
     private Player player;
     private EventChecker checker;
 
-    public PotionEffectRepeater(Player player, EventChecker checker) {
+    public EffectUpdater(Player player, EventChecker checker) {
         this.player = player;
         this.checker = checker;
     }

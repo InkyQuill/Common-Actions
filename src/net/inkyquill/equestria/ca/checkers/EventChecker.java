@@ -1,12 +1,5 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.entity.Player
- *  org.bukkit.event.Event
- *  org.bukkit.plugin.java.JavaPlugin
- */
-package org.equestria.minecraft.common.checkers;
+
+package net.inkyquill.equestria.ca.checkers;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

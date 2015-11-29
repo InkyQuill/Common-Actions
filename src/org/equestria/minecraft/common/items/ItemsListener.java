@@ -15,7 +15,7 @@
  */
 package org.equestria.minecraft.common.items;
 
-import java.util.logging.Logger;
+import net.inkyquill.equestria.ca.CommonAbilities;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,8 +23,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
-import net.inkyquill.equestria.ca.CommonAbilities;
 import org.equestria.minecraft.common.gamemaster.GameMasterController;
+
+import java.util.logging.Logger;
 
 public class ItemsListener
 implements Listener {
@@ -39,7 +40,7 @@ implements Listener {
     public void onPlayerItemHeldEvent(PlayerItemHeldEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItem(event.getNewSlot());
         if (item != null) {
-            String id = StringUtils.join((Object[])new Object[]{item.getTypeId(), item.getDurability()}, (String)":");
+            String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
             GameMasterController.getInstance(this.plugin).sendMessage(PlayerItemHeldEvent.class, event.getPlayer(), id);
         }
     }
@@ -47,7 +48,7 @@ implements Listener {
     @EventHandler
     public void onPickupItem(PlayerPickupItemEvent event) {
         ItemStack item = event.getItem().getItemStack();
-        String id = StringUtils.join((Object[])new Object[]{item.getTypeId(), item.getDurability()}, (String)":");
+        String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
         GameMasterController.getInstance(this.plugin).sendMessage(PlayerPickupItemEvent.class, event.getPlayer(), id);
     }
 
