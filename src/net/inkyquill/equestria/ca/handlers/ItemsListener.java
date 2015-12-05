@@ -13,17 +13,10 @@
  *  org.bukkit.inventory.PlayerInventory
  *  org.bukkit.material.MaterialData
  */
-package org.equestria.minecraft.common.items;
+package net.inkyquill.equestria.ca.handlers;
 
 import net.inkyquill.equestria.ca.CommonAbilities;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.inventory.ItemStack;
-import org.equestria.minecraft.common.gamemaster.GameMasterController;
 
 import java.util.logging.Logger;
 
@@ -36,10 +29,17 @@ implements Listener {
         this.plugin = plugin;
     }
 
+
+    // TODO: 06.12.2015 Write Items Listener
+    /*
+
     @EventHandler
     public void onPlayerItemHeldEvent(PlayerItemHeldEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItem(event.getNewSlot());
         if (item != null) {
+
+            if(CASettings.ItemMessages.containsKey(StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");))
+
             String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
             GameMasterController.getInstance(this.plugin).sendMessage(PlayerItemHeldEvent.class, event.getPlayer(), id);
         }
@@ -52,13 +52,6 @@ implements Listener {
         GameMasterController.getInstance(this.plugin).sendMessage(PlayerPickupItemEvent.class, event.getPlayer(), id);
     }
 
-    private void showDebugItem(ItemStack item, Player caller) {
-        caller.sendMessage("Amount " + item.getAmount());
-        caller.sendMessage("getDurability " + item.getDurability());
-        caller.sendMessage("getTypeId " + item.getTypeId());
-        if (item.getData() != null) {
-            caller.sendMessage("getData " + item.getData().getData());
-        }
-    }
+    */
 }
 

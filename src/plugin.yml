@@ -1,54 +1,15 @@
 name: CommonAbilities
 main: net.inkyquill.equestria.ca.CommonAbilities
-version: 1.6.0.a
-permissions:
-  replaceBlocksPermission:
-    default: op 
-  restrictTarget:
-    default: op
-  blockPerm:
-    default: op
-  dropChance:
-    default: op
-  craftPerm:
-    default: op
-  blockStamina:
-    default: op
-  gm:
-    default: op
+version: 1.6.0c
 commands:
   restrictTarget:
     description: restrict monster to target a player.
     aliases: restrictTarget
-    usage: /restrictTarget [add/remove] [PlayerName] [MonsterType]
-  blockPerm:
-    description: add/remove permissions for block interaction.
-    aliases: blockPerm
-    usage: /blockPerm [add/remove] [BlockType] [PermissionName]
-  dropChance:
-    description: add/remove permissions and chances for drop from blocks.
-    aliases: blockPerm
-    usage: /dropChance help
-  craftPerm:
-    description: add/remove permissions for craft blocks.
-    aliases: craftPerm
-    usage: /craftPerm help
-  blockStamina:
-    description: add/remove stamina policies for permissions.
-    aliases: blockStamina
-    usage: /blockStamina help
-  effects:
+  eff:
     description: add/remove effects for player.
     aliases: effects
-    usage: /effects help
-  damageController:
-    description: manage respawn and damage events.
-    aliases: damageController
-    usage: /damageController help
-  gmaster:
-    description: manage game master's abilities.
-    aliases: gmaster
-    usage: /gmaster help
+  death:
+    description: manage death events.
   gms:
     description: reworked game master abilities.
   timemanager:

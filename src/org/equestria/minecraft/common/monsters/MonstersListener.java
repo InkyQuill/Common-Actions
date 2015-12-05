@@ -26,6 +26,7 @@ import org.equestria.minecraft.common.checkers.MonsterChecker;
 
 import java.util.logging.Logger;
 
+// TODO: 06.12.2015 Rewrite monster listener?
 public class MonstersListener
 implements Listener {
     public static final Logger log = Logger.getLogger("MonstersListener");

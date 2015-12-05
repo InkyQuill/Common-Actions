@@ -1,7 +1,9 @@
 package net.inkyquill.equestria.ca.settings;
 
 import net.inkyquill.equestria.ca.CommonAbilities;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,25 +25,40 @@ import java.util.logging.Logger;
  */
 public class CASettings
 {
+
+    //TODO: Add monster config
+
     public static final Permission weather;
     public static final Permission gm;
     public static final Permission time;
     public static final Permission effects;
+    public static final Permission gmi;
+    public static final Permission death;
 
     public static CommonAbilities plugin;
     public static Logger L;
     public static RCsettings chat;
     public static Boolean TimeEnabled;
+    public static List<Effect> DeathEffects;
+    public static Location DeathTPLocation;
+    public static Map<String, Object> ItemMessages;
+    public static boolean DeathEffectsEnabled;
     static Map<String, WorldSettings> W;
     static Map<String, PlayerSettings> P;
 
     static {
         weather = new Permission("ca.weather");
         gm = new Permission("ca.gms");
+        gmi = new Permission("ca.gmi");
         time = new Permission("ca.time");
         effects = new Permission("ca.effects");
+        death = new Permission("ca.death");
+
         W = new HashMap<String, WorldSettings>();
         P = new HashMap<String, PlayerSettings>();
+        ItemMessages = new HashMap<String, Object>();
+        DeathEffects = new ArrayList<Effect>();
+        DeathTPLocation = new Location(Bukkit.getWorld("equestria"), 0, 80, 0);
     }
 
     public static WorldSettings getWorldSettings(World w)
@@ -95,10 +112,27 @@ public class CASettings
         for (String x : eff) {
             Effect e = Effect.getFromString(x);
             if (e != null)
-                p.Effects.add(e);
+                p.Effects.put(e.Type, e.Amplifier);
         }
 
+        p.DeathTimes = config.getInt(pname + ".dead", 0);
+
         return p;
+    }
+
+    public static void GetItemsConfig() {
+
+        //TODO: Items config?
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "items.yml"));
+        ItemMessages = config.getConfigurationSection("messages").getValues(false);
+    }
+
+    public static void SaveItemsConfig() throws IOException {
+
+        //TODO: Save items config?
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "items.yml"));
+        config.createSection("messages", ItemMessages);
+        config.save(new File(plugin.getDataFolder(), "items.yml"));
     }
 
     public static void GetWorldConfig(World world) {
@@ -113,7 +147,6 @@ public class CASettings
             w.weather = WeatherType.normal;
             L.severe(e.getMessage());
         }
-
         Type = config.getString(world.getName()+".time.type","mine");
         try {
             w.time.Type = TimeType.fromString(Type);
@@ -170,10 +203,11 @@ public class CASettings
             config.set(p+".gm.radius",P.get(p).GM.Radius);
 
             ArrayList<String> st = new ArrayList<String>();
-            for (Effect x : P.get(p).Effects) {
+            for (Effect x : P.get(p).getEffectsList()) {
                 st.add(x.toString());
             }
             config.set(p + ".effects", st);
+            config.set(p + ".dead", P.get(p).DeathTimes);
         }
         config.save(new File(plugin.getDataFolder(),"players.yml"));
         L.info("Saved all players!");
@@ -181,11 +215,29 @@ public class CASettings
         L.info("Saved RealChat config.");
         saveMainConfig();
         L.info("Saved main config.");
+        SaveItemsConfig();
+        L.info("Saved Items Config");
     }
 
     private static void saveMainConfig() {
         FileConfiguration config = plugin.getConfig();
         config.set("time.enabled", TimeEnabled);
+
+        ArrayList<String> st = new ArrayList<String>();
+        for (Effect x : DeathEffects) {
+            st.add(x.toString());
+        }
+        config.set("death.effects", st);
+        config.set("death.enabled", DeathEffectsEnabled);
+        config.set("death.teleport.world", DeathTPLocation.getWorld());
+        config.set("death.teleport.x", DeathTPLocation.getBlockX());
+        config.set("death.teleport.y", DeathTPLocation.getBlockY());
+        config.set("death.teleport.z", DeathTPLocation.getBlockZ());
+
+        //TODO: add monster saving
+
+
+
         plugin.saveConfig();
     }
 
@@ -246,6 +298,19 @@ public class CASettings
     public static void LoadSettings() {
         FileConfiguration config = plugin.getConfig();
         TimeEnabled = config.getBoolean("time.enabled");
+
+        DeathEffectsEnabled = config.getBoolean("death.enabled");
+        List<String> eff = config.getStringList("death.effects");
+        DeathEffects = new ArrayList<Effect>();
+        for (String x : eff) {
+            Effect e = Effect.getFromString(x);
+            if (e != null)
+                DeathEffects.add(e);
+        }
+        World w = Bukkit.getServer().getWorld(config.getString("death.teleport.world", "equestria"));
+        DeathTPLocation = new Location(w, config.getInt("death.teleport.x"), config.getInt("death.teleport.y"), config.getInt("death.teleport.z"));
+
+        //TODO: Add monster reading
     }
 
     private static ChatColor getConfigColor(FileConfiguration config, String option, ChatColor yellow) {

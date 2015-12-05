@@ -23,6 +23,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//TODO: rewrite Monster Checker
+
 public class MonsterChecker
 implements EventChecker {
     public static final Logger log;

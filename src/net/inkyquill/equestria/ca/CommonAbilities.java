@@ -14,12 +14,9 @@
  */
 package net.inkyquill.equestria.ca;
 
-import net.inkyquill.equestria.ca.commands.CelestialCommand;
-import net.inkyquill.equestria.ca.commands.GMCommand;
-import net.inkyquill.equestria.ca.commands.WeatherCommand;
-import net.inkyquill.equestria.ca.handlers.LoginListener;
-import net.inkyquill.equestria.ca.handlers.PlayerChatHandler;
-import net.inkyquill.equestria.ca.handlers.WorldListener;
+import net.inkyquill.equestria.ca.commands.*;
+import net.inkyquill.equestria.ca.handlers.*;
+import net.inkyquill.equestria.ca.runnable.ConfigUpdater;
 import net.inkyquill.equestria.ca.runnable.TimeUpdater;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.RCsettings;
@@ -27,12 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.equestria.minecraft.common.commands.DamageCommandExecutor;
-import org.equestria.minecraft.common.commands.EffectsCommandExecutor;
-import org.equestria.minecraft.common.commands.GameMasterCommandExecutor;
 import org.equestria.minecraft.common.commands.MonsterCommandExecutor;
-import org.equestria.minecraft.common.damage.DamageListener;
-import org.equestria.minecraft.common.items.ItemsListener;
 import org.equestria.minecraft.common.monsters.MonstersListener;
 
 import java.util.logging.Logger;
@@ -65,53 +57,42 @@ extends JavaPlugin {
         CASettings.L.info("Brawling...");
         DamageListener damageListener = new DamageListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(damageListener, this);
-        //CASettings.L.info("Voyeuring...");
-        //PlayerMoveListener moveListener = new PlayerMoveListener(this);
-        // Bukkit.getServer().getPluginManager().registerEvents(moveListener, this);
-        //CASettings.L.info("Sharpening pickaxes...");
-        //BlockListener blockListener = new BlockListener(this);
-        //Bukkit.getServer().getPluginManager().registerEvents(blockListener, this);
         CASettings.L.info("Spawning monsters...");
         MonstersListener targetListener = new MonstersListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(targetListener, this);
         CASettings.L.info("Generating epic loot...");
         ItemsListener itemListener = new ItemsListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(itemListener, this);
-        //CASettings.L.info("Crafting traps...");
-        //CraftListener craftListener = new CraftListener(this);
-        //Bukkit.getServer().getPluginManager().registerEvents(craftListener, this);
         CASettings.L.info("Awaiting user commands...");
         MonsterCommandExecutor monstersExecutor = new MonsterCommandExecutor(this);
         this.getCommand("restrictTarget").setExecutor(monstersExecutor);
-        // BlockPermissionCommandExecutor blocksExecutor = new BlockPermissionCommandExecutor(this);
-        // this.getCommand("blockPerm").setExecutor(blocksExecutor);
-        // DropChanceCommandExecutor dropChanceExecutor = new DropChanceCommandExecutor(this);
-        // this.getCommand("dropChance").setExecutor(dropChanceExecutor);
-        // CraftPermissionCommandExecutor craftPermissionExecutor = new CraftPermissionCommandExecutor(this);
-        //  this.getCommand("craftPerm").setExecutor(craftPermissionExecutor);
-        EffectsCommandExecutor effectsExecutor = new EffectsCommandExecutor(this);
-        this.getCommand("effects").setExecutor(effectsExecutor);
-        DamageCommandExecutor damageExecutor = new DamageCommandExecutor(this);
-        this.getCommand("damageController").setExecutor(damageExecutor);
-        GameMasterCommandExecutor masterExecutor = new GameMasterCommandExecutor(this);
-        this.getCommand("gmaster").setExecutor(masterExecutor);
+
 
         this.getCommand("meteo").setExecutor(new WeatherCommand());
         this.getCommand("gms").setExecutor(new GMCommand());
+        this.getCommand("gmi").setExecutor(new GMItemCommand());
         this.getCommand("timemanager").setExecutor(new CelestialCommand());
+        this.getCommand("eff").setExecutor(new EffectsCommand());
+        this.getCommand("death").setExecutor(new DECommands());
 
         CASettings.L.info("Validating permissions...");
         PluginManager manager = getServer().getPluginManager();
         manager.addPermission(CASettings.weather);
         manager.addPermission(CASettings.gm);
+        manager.addPermission(CASettings.gmi);
         manager.addPermission(CASettings.time);
         manager.addPermission(CASettings.effects);
+        manager.addPermission(CASettings.death);
         CASettings.L.info("Deploying bugs...");
         manager.registerEvents(new PlayerChatHandler(),this);
         manager.registerEvents(new WorldListener(this),this);
 
         if (CASettings.TimeEnabled)
             new TimeUpdater().runTaskLater(this, 5);
+
+        ConfigUpdater repeater = new ConfigUpdater();
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, repeater, 600);
+
         CASettings.L.info("Plugin successfully initialized...");
     }
 
@@ -120,8 +101,10 @@ extends JavaPlugin {
         PluginManager manager = getServer().getPluginManager();
         manager.removePermission(CASettings.weather);
         manager.removePermission(CASettings.gm);
+        manager.removePermission(CASettings.gmi);
         manager.removePermission(CASettings.time);
         manager.removePermission(CASettings.effects);
+        manager.removePermission(CASettings.death);
         try{CASettings.SaveConfigs();}
         catch(Exception e){log.info("Couldn't save configs: " + e.getMessage());}
         CASettings.L.info("Plugin successfully deinitialized...");

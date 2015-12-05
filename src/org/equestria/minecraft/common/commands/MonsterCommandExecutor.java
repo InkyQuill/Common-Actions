@@ -12,6 +12,8 @@ import org.equestria.minecraft.common.checkers.MonsterChecker;
 
 import java.util.logging.Logger;
 
+//// TODO: rewrite monster command
+
 public class MonsterCommandExecutor
 implements CommandExecutor {
     public static final Logger log = Logger.getLogger("MonsterCommandExecutor");

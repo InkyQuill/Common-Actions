@@ -16,30 +16,30 @@ public class Effect {
 
     static {
         EffectsMap = new HashMap<String, PotionEffectType>();
-        EffectsMap.put("bl", PotionEffectType.BLINDNESS);
-        EffectsMap.put("cn", PotionEffectType.CONFUSION);
-        EffectsMap.put("dr", PotionEffectType.DAMAGE_RESISTANCE);
-        EffectsMap.put("fd", PotionEffectType.FAST_DIGGING);
-        EffectsMap.put("fr", PotionEffectType.FIRE_RESISTANCE);
-        EffectsMap.put("hr", PotionEffectType.HARM);
-        EffectsMap.put("hl", PotionEffectType.HEAL);
-        EffectsMap.put("hn", PotionEffectType.HUNGER);
-        EffectsMap.put("id", PotionEffectType.INCREASE_DAMAGE);
-        EffectsMap.put("in", PotionEffectType.INVISIBILITY);
-        EffectsMap.put("jm", PotionEffectType.JUMP);
-        EffectsMap.put("nv", PotionEffectType.NIGHT_VISION);
-        EffectsMap.put("pn", PotionEffectType.POISON);
-        EffectsMap.put("rg", PotionEffectType.REGENERATION);
-        EffectsMap.put("sl", PotionEffectType.SLOW);
-        EffectsMap.put("sd", PotionEffectType.SLOW_DIGGING);
-        EffectsMap.put("sp", PotionEffectType.SPEED);
-        EffectsMap.put("wk", PotionEffectType.WEAKNESS);
-        EffectsMap.put("wb", PotionEffectType.WATER_BREATHING);
-        EffectsMap.put("wr", PotionEffectType.WITHER);
+        EffectsMap.put("BL", PotionEffectType.BLINDNESS);
+        EffectsMap.put("CN", PotionEffectType.CONFUSION);
+        EffectsMap.put("DR", PotionEffectType.DAMAGE_RESISTANCE);
+        EffectsMap.put("FD", PotionEffectType.FAST_DIGGING);
+        EffectsMap.put("FR", PotionEffectType.FIRE_RESISTANCE);
+        EffectsMap.put("HR", PotionEffectType.HARM);
+        EffectsMap.put("HL", PotionEffectType.HEAL);
+        EffectsMap.put("HN", PotionEffectType.HUNGER);
+        EffectsMap.put("ID", PotionEffectType.INCREASE_DAMAGE);
+        EffectsMap.put("IN", PotionEffectType.INVISIBILITY);
+        EffectsMap.put("JM", PotionEffectType.JUMP);
+        EffectsMap.put("NV", PotionEffectType.NIGHT_VISION);
+        EffectsMap.put("PN", PotionEffectType.POISON);
+        EffectsMap.put("RG", PotionEffectType.REGENERATION);
+        EffectsMap.put("SL", PotionEffectType.SLOW);
+        EffectsMap.put("SD", PotionEffectType.SLOW_DIGGING);
+        EffectsMap.put("SP", PotionEffectType.SPEED);
+        EffectsMap.put("WK", PotionEffectType.WEAKNESS);
+        EffectsMap.put("WB", PotionEffectType.WATER_BREATHING);
+        EffectsMap.put("WR", PotionEffectType.WITHER);
     }
 
     public final PotionEffectType Type;
-    private final int Amplifier;
+    public final int Amplifier;
 
     public Effect(PotionEffect potion) {
         Type = potion.getType();
