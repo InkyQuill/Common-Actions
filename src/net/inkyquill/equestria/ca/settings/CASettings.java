@@ -43,6 +43,7 @@ public class CASettings
     public static Location DeathTPLocation;
     public static Map<String, Object> ItemMessages;
     public static boolean DeathEffectsEnabled;
+    public static String DeathMessage;
     static Map<String, WorldSettings> W;
     static Map<String, PlayerSettings> P;
 
@@ -59,6 +60,7 @@ public class CASettings
         ItemMessages = new HashMap<String, Object>();
         DeathEffects = new ArrayList<Effect>();
         DeathTPLocation = new Location(Bukkit.getWorld("equestria"), 0, 80, 0);
+        DeathMessage = "You have nearly died...";
     }
 
     public static WorldSettings getWorldSettings(World w)
@@ -229,11 +231,11 @@ public class CASettings
         }
         config.set("death.effects", st);
         config.set("death.enabled", DeathEffectsEnabled);
-        config.set("death.teleport.world", DeathTPLocation.getWorld());
+        config.set("death.teleport.world", DeathTPLocation.getWorld().getName());
         config.set("death.teleport.x", DeathTPLocation.getBlockX());
         config.set("death.teleport.y", DeathTPLocation.getBlockY());
         config.set("death.teleport.z", DeathTPLocation.getBlockZ());
-
+        config.set("death.message", DeathMessage);
         //TODO: add monster saving
 
 
@@ -309,6 +311,7 @@ public class CASettings
         }
         World w = Bukkit.getServer().getWorld(config.getString("death.teleport.world", "equestria"));
         DeathTPLocation = new Location(w, config.getInt("death.teleport.x"), config.getInt("death.teleport.y"), config.getInt("death.teleport.z"));
+        DeathMessage = config.getString("death.message");
 
         //TODO: Add monster reading
     }

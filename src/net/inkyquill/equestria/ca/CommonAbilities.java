@@ -68,11 +68,17 @@ extends JavaPlugin {
         this.getCommand("restrictTarget").setExecutor(monstersExecutor);
 
 
+        CASettings.L.info("Starting meteo command handler...");
         this.getCommand("meteo").setExecutor(new WeatherCommand());
+        CASettings.L.info("Starting gms command handler...");
         this.getCommand("gms").setExecutor(new GMCommand());
+        CASettings.L.info("Starting gmi command handler...");
         this.getCommand("gmi").setExecutor(new GMItemCommand());
+        CASettings.L.info("Starting timemanager command handler...");
         this.getCommand("timemanager").setExecutor(new CelestialCommand());
+        CASettings.L.info("Starting eff command handler...");
         this.getCommand("eff").setExecutor(new EffectsCommand());
+        CASettings.L.info("Starting death command handler...");
         this.getCommand("death").setExecutor(new DECommands());
 
         CASettings.L.info("Validating permissions...");

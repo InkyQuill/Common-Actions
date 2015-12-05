@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DECommands implements CommandExecutor {
 
@@ -24,7 +26,7 @@ public class DECommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
-        if (commandSender.hasPermission(CASettings.death)) {
+        if (!commandSender.hasPermission(CASettings.death)) {
             commandSender.sendMessage(PIntro + ChatColor.RED + "Sorry, you have no permission for this.");
             return false;
         }
@@ -39,6 +41,9 @@ public class DECommands implements CommandExecutor {
         } else if (args[0].toLowerCase().equals("off")) {
             CASettings.DeathEffectsEnabled = false;
             commandSender.sendMessage(PIntro + ChatColor.GREEN + "Death effects disabled!");
+            return true;
+        } else if (args[0].toLowerCase().equals("eff")) {
+            commandSender.sendMessage(PIntro + ChatColor.WHITE + "Current death effects: " + Joiner.on(", ").join(CASettings.DeathEffects));
             return true;
         } else if (args[0].toLowerCase().equals("location")) {
             if (commandSender instanceof ConsoleCommandSender) {
@@ -70,6 +75,15 @@ public class DECommands implements CommandExecutor {
                     return true;
                 }
             }
+        } else if (args[0].toLowerCase().equals("message")) {
+            if (args.length > 1) {
+                List<String> arr = new ArrayList<String>();
+                arr.addAll(Arrays.asList(args).subList(1, args.length));
+                CASettings.DeathMessage = Joiner.on(" ").join(arr);
+            }
+            commandSender.sendMessage(PIntro + ChatColor.WHITE + "Current death message is: " + ChatColor.RED + CASettings.DeathMessage);
+
+            return true;
         } else if (args[0].toLowerCase().equals("help")) {
             showHelp(commandSender);
             return true;
@@ -114,9 +128,21 @@ public class DECommands implements CommandExecutor {
         sender.sendMessage(message);
         message = PIntro +
                 ChatColor.AQUA +
+                "/death eff" +
+                ChatColor.WHITE +
+                " shows current death effects";
+        sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
                 "/death location" +
                 ChatColor.WHITE +
                 " sets TP location to your current location";
+        sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
+                "/death message [message]" +
+                ChatColor.WHITE +
+                " shows or sets (if set) death message";
         sender.sendMessage(message);
         message = PIntro +
                 ChatColor.AQUA +

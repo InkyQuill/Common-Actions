@@ -24,7 +24,7 @@ public class EffectsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] param) {
 
-        if (commandSender.hasPermission(CASettings.effects)) {
+        if (!commandSender.hasPermission(CASettings.effects)) {
             commandSender.sendMessage(PIntro + ChatColor.RED + "Sorry, you have no permission for this.");
             return false;
         }

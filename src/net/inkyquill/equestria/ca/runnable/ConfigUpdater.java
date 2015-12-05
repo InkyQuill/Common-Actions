@@ -17,6 +17,6 @@ public class ConfigUpdater implements Runnable {
             e.printStackTrace();
         }
         ConfigUpdater repeater = new ConfigUpdater();
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 600);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 6000);
     }
 }

@@ -1,6 +1,6 @@
 name: CommonAbilities
 main: net.inkyquill.equestria.ca.CommonAbilities
-version: 1.6.0c
+version: 1.6.0e
 commands:
   restrictTarget:
     description: restrict monster to target a player.
@@ -11,7 +11,9 @@ commands:
   death:
     description: manage death events.
   gms:
-    description: reworked game master abilities.
+    description: GM chat.
+  gmi:
+    description: GM item messages.
   timemanager:
     description: manages world time settings.
     aliases: tm

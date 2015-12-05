@@ -3,8 +3,12 @@ package net.inkyquill.equestria.ca.checkers;
 
 import net.inkyquill.equestria.ca.CommonAbilities;
 import net.inkyquill.equestria.ca.settings.CASettings;
+import net.inkyquill.equestria.ca.settings.PlayerSettings;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class DamageChecker {
 
@@ -26,13 +30,18 @@ public class DamageChecker {
     public boolean processDamage(EntityDamageEvent event) {
 
         if (CASettings.DeathEffectsEnabled) {
-            if (!(event.getEntity() instanceof Player)) {
+            if ((event.getEntity() instanceof Player)) {
                 Player player = (Player) event.getEntity();
 
                 if (player.getHealth() <= event.getDamage() + 1) {
                     event.setCancelled(true);
+                    PlayerSettings ps = CASettings.getPlayerSettings(player);
+                    ps.DeathTimes++;
+                    player.sendMessage(ChatColor.RED + CASettings.DeathMessage);
                     EffectsChecker.getInstance(this.plugin).addDeathEffects(player);
                     player.setHealth(1);
+                    player.setFireTicks(0);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 5, 5));
                     player.teleport(CASettings.DeathTPLocation);
                     return true;
                 }
