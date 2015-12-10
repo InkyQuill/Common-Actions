@@ -7,10 +7,9 @@
 - */eff my* -- Показывает список эффектов текущего игрока.
 - */eff add (player)|me (effectcode)|(effectname) (amplifier)* -- Добавляет эффект игроку.
 - */eff remove (player)|me all|(effectcode)|(effectname)* -- Убирает эффекты с игрока.
+- */eff show (player)* -- Показывает список эффектов указанного игрока.
 
 Алиасы: */effects*
-
-*TODO: добавить просмотр эффектов другого игрока*
 
 ### Death
 - */death on|off* -- Включает/отключает функционал плагина.
