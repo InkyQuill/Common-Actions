@@ -1,7 +1,7 @@
 
 package net.inkyquill.equestria.ca.checkers;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.PlayerSettings;
 import org.bukkit.ChatColor;
@@ -14,13 +14,13 @@ public class DamageChecker {
 
     private static DamageChecker instance;
 
-    private CommonAbilities plugin;
+    private CommonActions plugin;
 
-    private DamageChecker(CommonAbilities plugin) {
+    private DamageChecker(CommonActions plugin) {
         this.plugin = plugin;
     }
 
-    public static synchronized DamageChecker getInstance(CommonAbilities plugin) {
+    public static synchronized DamageChecker getInstance(CommonActions plugin) {
         if (instance == null) {
             instance = new DamageChecker(plugin);
         }

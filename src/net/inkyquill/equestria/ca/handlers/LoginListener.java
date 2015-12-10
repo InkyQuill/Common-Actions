@@ -11,7 +11,7 @@
  */
 package net.inkyquill.equestria.ca.handlers;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.checkers.EffectsChecker;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,10 +24,10 @@ import java.util.logging.Logger;
 public class LoginListener
 implements Listener {
     public static final Logger log = Logger.getLogger("LoginListener");
-    private CommonAbilities plugin;
+    private CommonActions plugin;
 
     public LoginListener(JavaPlugin plugin) {
-        this.plugin = (CommonAbilities)plugin;
+        this.plugin = (CommonActions) plugin;
     }
 
     @EventHandler

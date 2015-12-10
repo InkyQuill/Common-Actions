@@ -1,12 +1,11 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="CommonAbilities:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/CommonAbilities_jar</output-path>
-    <root id="archive" name="CommonAbilities.jar">
-      <element id="module-output" name="CommonAbilities" />
+    <root id="archive" name="CommonActions.jar">
+      <element id="module-output" name="CommonActions" />
       <element id="directory" name="META-INF">
         <element id="dir-copy" path="$PROJECT_DIR$/src/META-INF" />
       </element>
-      <element id="file-copy" path="$PROJECT_DIR$/src/config.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
     </root>
   </artifact>

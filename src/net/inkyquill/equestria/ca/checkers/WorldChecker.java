@@ -10,7 +10,7 @@
  */
 package net.inkyquill.equestria.ca.checkers;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.WeatherType;
 import net.inkyquill.equestria.ca.settings.WorldSettings;
@@ -31,13 +31,13 @@ implements EventChecker {
         log = Logger.getLogger("WorldChecker");
     }
 
-    private CommonAbilities plugin;
+    private CommonActions plugin;
 
-    private WorldChecker(CommonAbilities plugin) {
+    private WorldChecker(CommonActions plugin) {
         this.plugin = plugin;
     }
 
-    public static WorldChecker getInstance(CommonAbilities plugin) {
+    public static WorldChecker getInstance(CommonActions plugin) {
         if (instance == null) {
             instance = new WorldChecker(plugin);
         }

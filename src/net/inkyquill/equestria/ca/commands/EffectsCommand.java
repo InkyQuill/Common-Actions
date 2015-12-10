@@ -23,7 +23,6 @@ public class EffectsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] param) {
-
         if (!commandSender.hasPermission(CASettings.effects)) {
             commandSender.sendMessage(PIntro + ChatColor.RED + "Sorry, you have no permission for this.");
             return false;
@@ -49,6 +48,18 @@ public class EffectsCommand implements CommandExecutor {
                 return true;
             } else {
                 showHelp(commandSender);
+                return true;
+            }
+        } else if (param.length == 2) {
+            if (param[0].toLowerCase().equals("show")) {
+
+                Player p = CASettings.plugin.getServer().getPlayer(param[1]);
+                if (p == null) {
+                    commandSender.sendMessage(PIntro + ChatColor.RED + " Player " + param[1] + " was not found.");
+                    return false;
+                }
+
+                commandSender.sendMessage(PIntro + ChatColor.WHITE + " Player " + param[1] + " has the following effects: " + ChatColor.AQUA + Joiner.on(", ").join(CASettings.getPlayerSettings(p).getEffects()));
                 return true;
             }
         } else if (param.length == 3) {

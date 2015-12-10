@@ -1,7 +1,7 @@
 
 package net.inkyquill.equestria.ca.handlers;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.checkers.DamageChecker;
 import net.inkyquill.equestria.ca.checkers.EffectsChecker;
 import net.inkyquill.equestria.ca.settings.CASettings;
@@ -16,10 +16,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class DamageListener
 implements Listener {
-    private CommonAbilities plugin;
+    private CommonActions plugin;
 
     public DamageListener(JavaPlugin plugin) {
-        this.plugin = (CommonAbilities)plugin;
+        this.plugin = (CommonActions) plugin;
     }
 
     @EventHandler

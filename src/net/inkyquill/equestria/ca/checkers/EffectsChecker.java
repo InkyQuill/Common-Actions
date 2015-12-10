@@ -1,7 +1,7 @@
 
 package net.inkyquill.equestria.ca.checkers;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.runnable.EffectUpdater;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.Effect;
@@ -18,13 +18,13 @@ import java.util.Map;
 public class EffectsChecker
         implements EventChecker {
     private static EffectsChecker instance;
-    private CommonAbilities plugin;
+    private CommonActions plugin;
 
-    private EffectsChecker(CommonAbilities plugin) {
+    private EffectsChecker(CommonActions plugin) {
         this.plugin = plugin;
     }
 
-    public static EffectsChecker getInstance(CommonAbilities plugin) {
+    public static EffectsChecker getInstance(CommonActions plugin) {
         if (instance == null) {
             instance = new EffectsChecker(plugin);
         }

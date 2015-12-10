@@ -1,7 +1,7 @@
 
 package net.inkyquill.equestria.ca.handlers;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.checkers.WorldChecker;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.WeatherType;
@@ -14,10 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class WorldListener
 implements Listener {
-    private CommonAbilities plugin;
+    private CommonActions plugin;
 
     public WorldListener(JavaPlugin plugin) {
-        this.plugin = (CommonAbilities)plugin;
+        this.plugin = (CommonActions) plugin;
     }
 
     @EventHandler

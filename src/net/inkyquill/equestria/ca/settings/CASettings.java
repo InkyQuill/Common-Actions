@@ -1,6 +1,6 @@
 package net.inkyquill.equestria.ca.settings;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -25,17 +25,15 @@ import java.util.logging.Logger;
  */
 public class CASettings
 {
-
-    //TODO: Add monster config
-
     public static final Permission weather;
     public static final Permission gm;
     public static final Permission time;
     public static final Permission effects;
     public static final Permission gmi;
     public static final Permission death;
+    public static final Permission monsters;
 
-    public static CommonAbilities plugin;
+    public static CommonActions plugin;
     public static Logger L;
     public static RCsettings chat;
     public static Boolean TimeEnabled;
@@ -54,6 +52,7 @@ public class CASettings
         time = new Permission("ca.time");
         effects = new Permission("ca.effects");
         death = new Permission("ca.death");
+        monsters = new Permission("ca.monsters");
 
         W = new HashMap<String, WorldSettings>();
         P = new HashMap<String, PlayerSettings>();
@@ -62,6 +61,8 @@ public class CASettings
         DeathTPLocation = new Location(Bukkit.getWorld("equestria"), 0, 80, 0);
         DeathMessage = "You have nearly died...";
     }
+
+    // TODO: 10.12.2015 Split saving players
 
     public static WorldSettings getWorldSettings(World w)
     {
@@ -119,6 +120,7 @@ public class CASettings
 
         p.DeathTimes = config.getInt(pname + ".dead", 0);
 
+        p.setMonstersList(config.getStringList(pname + ".monsters"));
         return p;
     }
 
@@ -210,6 +212,8 @@ public class CASettings
             }
             config.set(p + ".effects", st);
             config.set(p + ".dead", P.get(p).DeathTimes);
+
+            config.set(p + ".monsters", P.get(p).getMonstersList());
         }
         config.save(new File(plugin.getDataFolder(),"players.yml"));
         L.info("Saved all players!");
@@ -236,9 +240,6 @@ public class CASettings
         config.set("death.teleport.y", DeathTPLocation.getBlockY());
         config.set("death.teleport.z", DeathTPLocation.getBlockZ());
         config.set("death.message", DeathMessage);
-        //TODO: add monster saving
-
-
 
         plugin.saveConfig();
     }
@@ -312,8 +313,6 @@ public class CASettings
         World w = Bukkit.getServer().getWorld(config.getString("death.teleport.world", "equestria"));
         DeathTPLocation = new Location(w, config.getInt("death.teleport.x"), config.getInt("death.teleport.y"), config.getInt("death.teleport.z"));
         DeathMessage = config.getString("death.message");
-
-        //TODO: Add monster reading
     }
 
     private static ChatColor getConfigColor(FileConfiguration config, String option, ChatColor yellow) {

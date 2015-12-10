@@ -24,14 +24,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.equestria.minecraft.common.commands.MonsterCommandExecutor;
-import org.equestria.minecraft.common.monsters.MonstersListener;
 
 import java.util.logging.Logger;
 
-public class CommonAbilities
+public class CommonActions
 extends JavaPlugin {
-    private Logger log = Logger.getLogger("CommonAbilities");
+    private Logger log = Logger.getLogger("CommonActions");
 
     public void onEnable() {
         CASettings.plugin = this;
@@ -51,23 +49,20 @@ extends JavaPlugin {
         this.saveConfig();
         this.reloadConfig();
 
+        // TODO: 10.12.2015 Rewrite Listeners to be simpler
         CASettings.L.info("Watching new ponies...");
         LoginListener loginListener = new LoginListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(loginListener, this);
         CASettings.L.info("Brawling...");
         DamageListener damageListener = new DamageListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(damageListener, this);
-        CASettings.L.info("Spawning monsters...");
-        MonstersListener targetListener = new MonstersListener(this);
-        Bukkit.getServer().getPluginManager().registerEvents(targetListener, this);
         CASettings.L.info("Generating epic loot...");
         ItemsListener itemListener = new ItemsListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(itemListener, this);
-        CASettings.L.info("Awaiting user commands...");
-        MonsterCommandExecutor monstersExecutor = new MonsterCommandExecutor(this);
-        this.getCommand("restrictTarget").setExecutor(monstersExecutor);
 
 
+        CASettings.L.info("Starting mobrestrict command handler...");
+        this.getCommand("mobrestrict").setExecutor(new MonsterCommand());
         CASettings.L.info("Starting meteo command handler...");
         this.getCommand("meteo").setExecutor(new WeatherCommand());
         CASettings.L.info("Starting gms command handler...");
@@ -89,9 +84,12 @@ extends JavaPlugin {
         manager.addPermission(CASettings.time);
         manager.addPermission(CASettings.effects);
         manager.addPermission(CASettings.death);
+        manager.addPermission(CASettings.monsters);
+
         CASettings.L.info("Deploying bugs...");
         manager.registerEvents(new PlayerChatHandler(),this);
         manager.registerEvents(new WorldListener(this),this);
+        manager.registerEvents(new MonstersListener(), this);
 
         if (CASettings.TimeEnabled)
             new TimeUpdater().runTaskLater(this, 5);
@@ -111,18 +109,10 @@ extends JavaPlugin {
         manager.removePermission(CASettings.time);
         manager.removePermission(CASettings.effects);
         manager.removePermission(CASettings.death);
+        manager.removePermission(CASettings.monsters);
         try{CASettings.SaveConfigs();}
         catch(Exception e){log.info("Couldn't save configs: " + e.getMessage());}
         CASettings.L.info("Plugin successfully deinitialized...");
-    }
-
-
-    public String getConfigItem(String s) {
-        return this.getConfig().getString(s);
-    }
-
-    public boolean getBoolConfigItem(String s) {
-        return this.getConfig().getBoolean(s);
     }
 }
 

@@ -15,7 +15,7 @@
  */
 package net.inkyquill.equestria.ca.handlers;
 
-import net.inkyquill.equestria.ca.CommonAbilities;
+import net.inkyquill.equestria.ca.CommonActions;
 import org.bukkit.event.Listener;
 
 import java.util.logging.Logger;
@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 public class ItemsListener
 implements Listener {
     public static final Logger log = Logger.getLogger("ItemsListener");
-    private CommonAbilities plugin;
+    private CommonActions plugin;
 
-    public ItemsListener(CommonAbilities plugin) {
+    public ItemsListener(CommonActions plugin) {
         this.plugin = plugin;
     }
 

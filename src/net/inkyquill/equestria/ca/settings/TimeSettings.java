@@ -27,6 +27,8 @@ public class TimeSettings {
     private long ChaosStarted;
     private int CurrentTick;
 
+    // TODO: 10.12.2015 Make a new, RP compatible world time
+
     public TimeSettings()
     {
         Type = TimeType.mine;
