@@ -1,7 +1,6 @@
 
 package net.inkyquill.equestria.ca.handlers;
 
-import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.checkers.WorldChecker;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.WeatherType;
@@ -10,14 +9,13 @@ import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class WorldListener
 implements Listener {
-    private CommonActions plugin;
 
-    public WorldListener(JavaPlugin plugin) {
-        this.plugin = (CommonActions) plugin;
+
+    public WorldListener() {
+
     }
 
     @EventHandler
@@ -26,7 +24,7 @@ implements Listener {
         World w = event.getWorld();
         WorldSettings ws = CASettings.getWorldSettings(w);
         if(ws.weather != WeatherType.normal) {
-            isCancelled = isCancelled || WorldChecker.getInstance(this.plugin).checkEvent(event, null);
+            isCancelled = isCancelled || WorldChecker.getInstance(CASettings.plugin).checkEvent(event, null);
             event.setCancelled(isCancelled);
         }
     }

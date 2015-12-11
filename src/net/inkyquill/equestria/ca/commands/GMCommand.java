@@ -67,32 +67,32 @@ implements CommandExecutor {
         sender.sendMessage(message);
     }
 
-    public boolean onCommand(CommandSender commandsender, Command command, String s, String[] as) {
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] as) {
 
-        if(commandsender instanceof ConsoleCommandSender)
+        if (sender instanceof ConsoleCommandSender)
         {
-            commandsender.sendMessage(PIntro + ChatColor.RED + "Sorry, but you can't use this command from console!");
+            sender.sendMessage(PIntro + ChatColor.RED + "Sorry, but you can't use this command from console!");
             return false;
         }
-        if (!commandsender.hasPermission(CASettings.gm)) {
-            commandsender.sendMessage(PIntro + ChatColor.RED + "Sorry, but you have no permissions for this command!");
+        if (!sender.hasPermission(CASettings.gm)) {
+            sender.sendMessage(PIntro + ChatColor.RED + "Sorry, but you have no permissions for this command!");
             return false;
         }
         if (as == null || as.length == 0) {
-            this.handleNoArgsCommand((Player)commandsender);
+            this.handleNoArgsCommand((Player) sender);
             return false;
         }
         if ("help".equals(as[0])) {
-            helpCommand(commandsender);
+            helpCommand(sender);
             return false;
         }
         if ("colors".equals(as[0])) {
-            this.sendColorsListMessage((Player)commandsender);
+            this.sendColorsListMessage((Player) sender);
             return false;
         }
         if ("my".equals(as[0]))
         {
-            Player p = (Player)commandsender;
+            Player p = (Player) sender;
             PlayerSettings ps = CASettings.getPlayerSettings(p);
             p.sendMessage(PIntro + ChatColor.WHITE + "Your current settings are:");
             p.sendMessage(PIntro + ChatColor.AQUA + "Enabled: " +  ChatColor.WHITE + (ps.GM.Enabled?"true":"false"));
@@ -103,7 +103,7 @@ implements CommandExecutor {
         }
         if ("on".equals(as[0]))
         {
-            Player p = (Player)commandsender;
+            Player p = (Player) sender;
             PlayerSettings ps = CASettings.getPlayerSettings(p);
             ps.GM.Enabled = true;
             p.sendMessage(PIntro + ChatColor.WHITE + "GM chat is now ON");
@@ -111,16 +111,16 @@ implements CommandExecutor {
         }
         if ("off".equals(as[0]))
         {
-            Player p = (Player)commandsender;
+            Player p = (Player) sender;
             PlayerSettings ps = CASettings.getPlayerSettings(p);
             ps.GM.Enabled = false;
             p.sendMessage(PIntro + ChatColor.WHITE + "GM chat is now OFF");
             return false;
         }
         if (as.length > 1) {
-            return this.handleValidCommand((Player)commandsender, as);
+            return this.handleValidCommand((Player) sender, as);
         }
-        this.handleNoArgsCommand((Player)commandsender);
+        this.handleNoArgsCommand((Player) sender);
         return false;
     }
 

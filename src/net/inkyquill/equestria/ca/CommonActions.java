@@ -44,22 +44,9 @@ extends JavaPlugin {
         CASettings.chat = new RCsettings();
         CASettings.loadRCConfig();
 
-
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
         this.reloadConfig();
-
-        // TODO: 10.12.2015 Rewrite Listeners to be simpler
-        CASettings.L.info("Watching new ponies...");
-        LoginListener loginListener = new LoginListener(this);
-        Bukkit.getServer().getPluginManager().registerEvents(loginListener, this);
-        CASettings.L.info("Brawling...");
-        DamageListener damageListener = new DamageListener(this);
-        Bukkit.getServer().getPluginManager().registerEvents(damageListener, this);
-        CASettings.L.info("Generating epic loot...");
-        ItemsListener itemListener = new ItemsListener(this);
-        Bukkit.getServer().getPluginManager().registerEvents(itemListener, this);
-
 
         CASettings.L.info("Starting mobrestrict command handler...");
         this.getCommand("mobrestrict").setExecutor(new MonsterCommand());
@@ -88,8 +75,11 @@ extends JavaPlugin {
 
         CASettings.L.info("Deploying bugs...");
         manager.registerEvents(new PlayerChatHandler(),this);
-        manager.registerEvents(new WorldListener(this),this);
+        manager.registerEvents(new WorldListener(), this);
         manager.registerEvents(new MonstersListener(), this);
+        manager.registerEvents(new ItemsListener(), this);
+        manager.registerEvents(new DamageListener(), this);
+        manager.registerEvents(new LoginListener(), this);
 
         if (CASettings.TimeEnabled)
             new TimeUpdater().runTaskLater(this, 5);

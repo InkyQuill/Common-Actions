@@ -39,7 +39,7 @@ public class CASettings
     public static Boolean TimeEnabled;
     public static List<Effect> DeathEffects;
     public static Location DeathTPLocation;
-    public static Map<String, Object> ItemMessages;
+    public static Map<String, ItemData> ItemMessages;
     public static boolean DeathEffectsEnabled;
     public static String DeathMessage;
     static Map<String, WorldSettings> W;
@@ -56,13 +56,31 @@ public class CASettings
 
         W = new HashMap<String, WorldSettings>();
         P = new HashMap<String, PlayerSettings>();
-        ItemMessages = new HashMap<String, Object>();
+        ItemMessages = new HashMap<String, ItemData>();
         DeathEffects = new ArrayList<Effect>();
         DeathTPLocation = new Location(Bukkit.getWorld("equestria"), 0, 80, 0);
         DeathMessage = "You have nearly died...";
     }
 
-    // TODO: 10.12.2015 Split saving players
+
+    public static ItemData getItemSettings(String id) {
+        if (ItemMessages.containsKey(id)) return ItemMessages.get(id);
+        else {
+            ItemData data = loadItemSettings(id);
+            ItemMessages.put(id, data);
+            return data;
+        }
+    }
+
+    private static ItemData loadItemSettings(String id) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "items.yml"));
+        try {
+            ItemData data = new ItemData(config.getConfigurationSection(id).getValues(true));
+            return data;
+        } catch (Exception e) {
+            return new ItemData();
+        }
+    }
 
     public static WorldSettings getWorldSettings(World w)
     {
@@ -124,18 +142,11 @@ public class CASettings
         return p;
     }
 
-    public static void GetItemsConfig() {
-
-        //TODO: Items config?
-        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "items.yml"));
-        ItemMessages = config.getConfigurationSection("messages").getValues(false);
-    }
-
     public static void SaveItemsConfig() throws IOException {
-
-        //TODO: Save items config?
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "items.yml"));
-        config.createSection("messages", ItemMessages);
+        for (String id : ItemMessages.keySet()) {
+            config.set(id, ItemMessages.get(id).serialize());
+        }
         config.save(new File(plugin.getDataFolder(), "items.yml"));
     }
 
@@ -179,7 +190,8 @@ public class CASettings
         W.put(world.getName(),w);
     }
 
-    public static void SaveConfigs() throws IOException {
+
+    public static void SaveWorldConfigs() throws IOException {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "worlds.yml"));
         for(World w: plugin.getServer().getWorlds())
         {
@@ -197,8 +209,10 @@ public class CASettings
             config.set(w.getName()+".time.chaos.maximum",wc.time.ChaosDurationMax);
         }
         config.save(new File(plugin.getDataFolder(),"worlds.yml"));
-        L.info("Saved all worlds!");
-        config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players.yml"));
+    }
+
+    public static void SavePlayerConfigs() throws IOException {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "players.yml"));
         for(String p: P.keySet())
         {
             config.set(p+".gm.enabled",P.get(p).GM.Enabled);
@@ -216,6 +230,12 @@ public class CASettings
             config.set(p + ".monsters", P.get(p).getMonstersList());
         }
         config.save(new File(plugin.getDataFolder(),"players.yml"));
+    }
+
+    public static void SaveConfigs() throws IOException {
+        SaveWorldConfigs();
+        L.info("Saved all worlds!");
+        SavePlayerConfigs();
         L.info("Saved all players!");
         saveRCConfig();
         L.info("Saved RealChat config.");

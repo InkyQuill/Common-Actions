@@ -15,43 +15,79 @@
  */
 package net.inkyquill.equestria.ca.handlers;
 
-import net.inkyquill.equestria.ca.CommonActions;
+import guava10.com.google.common.base.Joiner;
+import net.inkyquill.equestria.ca.settings.CASettings;
+import net.inkyquill.equestria.ca.settings.ItemData;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
-import java.util.logging.Logger;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class ItemsListener
 implements Listener {
-    public static final Logger log = Logger.getLogger("ItemsListener");
-    private CommonActions plugin;
 
-    public ItemsListener(CommonActions plugin) {
-        this.plugin = plugin;
+    public ItemsListener() {
     }
 
-
-    // TODO: 06.12.2015 Write Items Listener
-    /*
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerItemHeldEvent(PlayerItemHeldEvent event) {
-        ItemStack item = event.getPlayer().getInventory().getItem(event.getNewSlot());
+        Player p = event.getPlayer();
+        ItemStack item = p.getInventory().getItem(event.getNewSlot());
         if (item != null) {
-
-            if(CASettings.ItemMessages.containsKey(StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");))
-
-            String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
-            GameMasterController.getInstance(this.plugin).sendMessage(PlayerItemHeldEvent.class, event.getPlayer(), id);
+            String key = Joiner.on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+            ItemData i = CASettings.getItemSettings(key);
+            if (i.HoldMessage != null) {
+                SendMessage(i.HoldMessage, i.HoldType, i.HoldRadius, p);
+            }
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPickupItem(PlayerPickupItemEvent event) {
+        Player p = event.getPlayer();
         ItemStack item = event.getItem().getItemStack();
-        String id = StringUtils.join(new Object[]{item.getTypeId(), item.getDurability()}, ":");
-        GameMasterController.getInstance(this.plugin).sendMessage(PlayerPickupItemEvent.class, event.getPlayer(), id);
+        if (item != null) {
+            String key = Joiner.on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+            ItemData i = CASettings.getItemSettings(key);
+            if (i.PickupMessage != null) {
+                SendMessage(i.PickupMessage, i.PickupType, i.PickupRadius, p);
+            }
+        }
     }
 
-    */
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerUse(PlayerInteractEvent event) {
+        Player p = event.getPlayer();
+
+        ItemStack item = p.getItemInHand();
+        if (item != null) {
+            String key = Joiner.on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+            ItemData i = CASettings.getItemSettings(key);
+            if (i.UseMessage != null) {
+                SendMessage(i.UseMessage, i.UseType, i.UseRadius, p);
+            }
+        }
+    }
+
+    private void SendMessage(String useMessage, ItemData.Messagetype useType, int useRadius, Player p) {
+        if (useType == ItemData.Messagetype.USER) {
+            p.sendMessage(useMessage);
+        } else {
+            String msg = useMessage.replace("%p%", p.getDisplayName());
+            for (Player recipient : CASettings.plugin.getServer().getOnlinePlayers()) {
+                if (p.equals(recipient)) {
+                    p.sendMessage(msg);
+                    continue;
+                }
+                if (!p.getWorld().equals(recipient.getWorld()) || (p.getLocation().distance(recipient.getLocation())) > useRadius)
+                    continue;
+                recipient.sendMessage(msg);
+            }
+        }
+    }
 }
 

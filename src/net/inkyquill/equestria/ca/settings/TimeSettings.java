@@ -7,9 +7,6 @@ import net.inkyquill.equestria.ca.utils.SunTimes;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by obruchnikov_pa on 26.11.2015.
- */
 public class TimeSettings {
 
     public TimeType Type;
