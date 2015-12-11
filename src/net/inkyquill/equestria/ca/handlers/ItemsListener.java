@@ -77,7 +77,8 @@ implements Listener {
         if (useType == ItemData.Messagetype.USER) {
             p.sendMessage(useMessage);
         } else {
-            String msg = useMessage.replace("%p%", p.getDisplayName());
+            String msg = useMessage.replace("%(p)%", p.getDisplayName());
+            msg = msg.replace("%(P)%", p.getDisplayName());
             for (Player recipient : CASettings.plugin.getServer().getOnlinePlayers()) {
                 if (p.equals(recipient)) {
                     p.sendMessage(msg);

@@ -216,7 +216,7 @@ public class GMItemCommand implements CommandExecutor {
                 ChatColor.AQUA +
                 "/gms hold|use|pickup message [message]" +
                 ChatColor.WHITE +
-                " sets the message for specified mode. You may use %COLORCODE to set colors (COLORCODE is a letter from " + ChatColor.AQUA + "/gms colors" + ChatColor.WHITE + " command) and %p% to show player name (only in world messages).";
+                " sets the message for specified mode. You may use %COLORCODE to set colors (COLORCODE is a letter from " + ChatColor.AQUA + "/gms colors" + ChatColor.WHITE + " command) and %(p)% to show player name (only in world messages).";
         sender.sendMessage(message);
         message = PIntro +
                 ChatColor.AQUA +
