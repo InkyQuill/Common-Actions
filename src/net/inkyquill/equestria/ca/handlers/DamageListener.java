@@ -22,7 +22,7 @@ implements Listener {
     @EventHandler
     public void onDamageDone(EntityDamageEvent event) {
         boolean isCancelled = event.isCancelled();
-        isCancelled = isCancelled || DamageChecker.getInstance(CASettings.plugin).processDamage(event);
+        isCancelled = isCancelled || DamageChecker.getInstance().processDamage(event);
         event.setCancelled(isCancelled);
     }
 
@@ -35,7 +35,7 @@ implements Listener {
             PlayerSettings ps = CASettings.getPlayerSettings(p);
             ps.DeathTimes++;
             if (CASettings.DeathEffectsEnabled) {
-                EffectsChecker.getInstance(CASettings.plugin).addDeathEffects(p);
+                EffectsChecker.getInstance().addDeathEffects(p);
             }
         }
     }

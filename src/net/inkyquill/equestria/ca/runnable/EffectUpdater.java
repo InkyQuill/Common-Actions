@@ -1,10 +1,4 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.Bukkit
- *  org.bukkit.entity.Player
- */
+
 package net.inkyquill.equestria.ca.runnable;
 
 import net.inkyquill.equestria.ca.checkers.EventChecker;

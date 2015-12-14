@@ -1,6 +1,5 @@
 package net.inkyquill.equestria.ca.commands;
 
-import guava10.com.google.common.base.Joiner;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.ItemData;
 import org.bukkit.ChatColor;
@@ -15,10 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by obruchnikov_pa on 04.12.2015.
- * Unfinished, maybe won't be finished.
- */
+import static guava10.com.google.common.base.Joiner.on;
+
 public class GMItemCommand implements CommandExecutor {
 
     static String PIntro;
@@ -45,7 +42,7 @@ public class GMItemCommand implements CommandExecutor {
             sender.sendMessage(PIntro + ChatColor.RED + "You should take item in your hand to manage messages.");
             return false;
         }
-        String key = Joiner.on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+        String key = on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
         ItemData id = CASettings.getItemSettings(key);
 
         if (as == null || as.length == 0) {
@@ -101,7 +98,7 @@ public class GMItemCommand implements CommandExecutor {
             if (as.length > 2 && as[1].toLowerCase().equals("message")) {
                 List<String> arr = new ArrayList<String>();
                 arr.addAll(Arrays.asList(as).subList(2, as.length));
-                String msg = com.google.common.base.Joiner.on(" ").join(arr);
+                String msg = on(" ").join(arr);
                 msg = ColorReplace(msg);
                 id.HoldMessage = msg;
                 sender.sendMessage(PIntro + ChatColor.GREEN + "Hold message for this item set");
@@ -132,7 +129,7 @@ public class GMItemCommand implements CommandExecutor {
             if (as.length > 2 && as[1].toLowerCase().equals("message")) {
                 List<String> arr = new ArrayList<String>();
                 arr.addAll(Arrays.asList(as).subList(2, as.length));
-                String msg = com.google.common.base.Joiner.on(" ").join(arr);
+                String msg = on(" ").join(arr);
                 msg = ColorReplace(msg);
                 id.UseMessage = msg;
                 sender.sendMessage(PIntro + ChatColor.GREEN + "Use message for this item set");
@@ -163,7 +160,7 @@ public class GMItemCommand implements CommandExecutor {
             if (as.length > 2 && as[1].toLowerCase().equals("message")) {
                 List<String> arr = new ArrayList<String>();
                 arr.addAll(Arrays.asList(as).subList(2, as.length));
-                String msg = com.google.common.base.Joiner.on(" ").join(arr);
+                String msg = on(" ").join(arr);
                 msg = ColorReplace(msg);
                 id.PickupMessage = msg;
                 sender.sendMessage(PIntro + ChatColor.GREEN + "Pickup message for this item set");

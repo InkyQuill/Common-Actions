@@ -13,8 +13,8 @@ public class RCsettings {
 
     public ChatColor spokenPlayerColor;
     public ChatColor heardPlayerColor;
-    public ChatColor messageColor;
-    public ChatColor dimMessageColor;
+    // public ChatColor messageColor;
+    // public ChatColor dimMessageColor;
 
     public double garbleRangeDivisor;
     public double speakingRangeMeters;

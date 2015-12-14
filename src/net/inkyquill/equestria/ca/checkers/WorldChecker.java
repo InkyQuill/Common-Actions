@@ -1,16 +1,6 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.World
- *  org.bukkit.entity.Player
- *  org.bukkit.event.Event
- *  org.bukkit.event.weather.WeatherChangeEvent
- *  org.bukkit.plugin.java.JavaPlugin
- */
+
 package net.inkyquill.equestria.ca.checkers;
 
-import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.WeatherType;
 import net.inkyquill.equestria.ca.settings.WorldSettings;
@@ -18,40 +8,24 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.weather.WeatherChangeEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.logging.Logger;
 
 public class WorldChecker
 implements EventChecker {
-    private static final Logger log;
+
     private static WorldChecker instance;
 
-    static {
-        log = Logger.getLogger("WorldChecker");
-    }
-
-    private CommonActions plugin;
-
-    private WorldChecker(CommonActions plugin) {
-        this.plugin = plugin;
-    }
-
-    public static WorldChecker getInstance(CommonActions plugin) {
+    public static WorldChecker getInstance() {
         if (instance == null) {
-            instance = new WorldChecker(plugin);
+            instance = new WorldChecker();
         }
         return instance;
     }
 
-    public boolean checkEvent(Event event, JavaPlugin plugin) {
-        if (event instanceof WeatherChangeEvent) {
-            return this.checkEvent((WeatherChangeEvent)event, plugin);
-        }
-        return false;
+    public boolean checkEvent(Event event) {
+        return event instanceof WeatherChangeEvent && this.checkEvent((WeatherChangeEvent) event);
     }
 
-    private boolean checkEvent(WeatherChangeEvent event, JavaPlugin plugin) {
+    private boolean checkEvent(WeatherChangeEvent event) {
 
         World w = event.getWorld();
         WorldSettings ws = CASettings.getWorldSettings(w);
@@ -66,13 +40,12 @@ implements EventChecker {
             }
             w.setWeatherDuration(600);
             return false;
-        }
-        else if(ws.weather == WeatherType.rainy)
+        } else if (ws.weather == WeatherType.storm)
         {
             if(!event.toWeatherState()) {
                 w.setStorm(true);
                 w.setWeatherDuration(600);
-                //log.info("Current weather set to rainy in " + w.getName());
+                //log.info("Current weather set to storm in " + w.getName());
             }
             w.setWeatherDuration(600);
             return false;

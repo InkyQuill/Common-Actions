@@ -16,8 +16,6 @@ import java.util.Random;
  * includes RealisticChat!
  */
 public class PlayerChatHandler implements Listener {
-
-    private static final String MSG_START = "[/i/]";
     private final Random random;
 
     public PlayerChatHandler() {
@@ -53,7 +51,7 @@ public class PlayerChatHandler implements Listener {
             event.setCancelled(true);
         } else {
             String message = event.getMessage();
-            CASettings.L.info(message);
+            CASettings.L.info(p.getDisplayName() + ": " + message);
 
             double d = CASettings.chat.speakingRangeMeters;
 
@@ -68,7 +66,7 @@ public class PlayerChatHandler implements Listener {
                 double u = CASettings.chat.yellDistance.get(i - 1);
                 d += u;
 
-                CASettings.L.info("");
+                //CASettings.L.info("");
             }
 
             int j = countParenthesizeNests(message);
@@ -156,7 +154,6 @@ public class PlayerChatHandler implements Listener {
 
         StringBuilder stringbuilder = new StringBuilder();
         int i = 0;
-        int j = 0;
         ChatColor last = ChatColor.WHITE;
         while (i < s.length()) {
             int k = s.codePointAt(i);

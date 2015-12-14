@@ -1,7 +1,6 @@
 
 package net.inkyquill.equestria.ca.checkers;
 
-import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.runnable.EffectUpdater;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.Effect;
@@ -9,7 +8,6 @@ import net.inkyquill.equestria.ca.settings.PlayerSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -18,15 +16,10 @@ import java.util.Map;
 public class EffectsChecker
         implements EventChecker {
     private static EffectsChecker instance;
-    private CommonActions plugin;
 
-    private EffectsChecker(CommonActions plugin) {
-        this.plugin = plugin;
-    }
-
-    public static EffectsChecker getInstance(CommonActions plugin) {
+    public static EffectsChecker getInstance() {
         if (instance == null) {
-            instance = new EffectsChecker(plugin);
+            instance = new EffectsChecker();
         }
         return instance;
     }
@@ -47,7 +40,7 @@ public class EffectsChecker
         PlayerSettings sett = CASettings.getPlayerSettings(p);
         sett.Effects.put(eff, amp);
 
-        EffectUpdater repeater = new EffectUpdater(p, getInstance(CASettings.plugin));
+        EffectUpdater repeater = new EffectUpdater(p, getInstance());
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 0);
     }
 
@@ -61,11 +54,11 @@ public class EffectsChecker
             }
 
         EffectUpdater repeater = new EffectUpdater(player, this);
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, repeater, 180);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 400);
     }
 
     @Override
-    public <T extends Event> boolean checkEvent(T event, JavaPlugin plugin) {
+    public <T extends Event> boolean checkEvent(T event) {
         return false;
     }
 
@@ -82,7 +75,7 @@ public class EffectsChecker
             }
 
             EffectUpdater repeater = new EffectUpdater(player, this);
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, repeater, 180);
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 400);
         }
     }
 }

@@ -5,9 +5,6 @@ import org.bukkit.Bukkit;
 
 import java.io.IOException;
 
-/**
- * Created by Pavel on 05.12.2015.
- */
 public class ConfigUpdater implements Runnable {
     @Override
     public void run() {

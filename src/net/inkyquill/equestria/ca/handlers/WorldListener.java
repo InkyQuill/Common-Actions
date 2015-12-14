@@ -15,7 +15,6 @@ implements Listener {
 
 
     public WorldListener() {
-
     }
 
     @EventHandler
@@ -24,7 +23,7 @@ implements Listener {
         World w = event.getWorld();
         WorldSettings ws = CASettings.getWorldSettings(w);
         if(ws.weather != WeatherType.normal) {
-            isCancelled = isCancelled || WorldChecker.getInstance(CASettings.plugin).checkEvent(event, null);
+            isCancelled = isCancelled || WorldChecker.getInstance().checkEvent(event);
             event.setCancelled(isCancelled);
         }
     }

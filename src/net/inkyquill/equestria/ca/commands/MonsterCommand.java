@@ -1,7 +1,7 @@
 
 package net.inkyquill.equestria.ca.commands;
 
-import com.google.common.base.Joiner;
+import guava10.com.google.common.base.Joiner;
 import net.inkyquill.equestria.ca.checkers.MonsterChecker;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.PlayerSettings;
@@ -157,19 +157,19 @@ implements CommandExecutor {
         PlayerSettings ps = CASettings.getPlayerSettings(p);
         ps.Monsters.clear();
         Collections.addAll(ps.Monsters, MonsterTypes);
-        sender.sendMessage(PIntro + ChatColor.WHITE + "All restrictions for " + p + " were cleared.");
+        sender.sendMessage(PIntro + ChatColor.WHITE + "All restrictions for " + p.getName() + " were cleared.");
     }
 
 
     private void clearRestrictedMonsters(CommandSender sender, Player p) {
         PlayerSettings ps = CASettings.getPlayerSettings(p);
         ps.Monsters.clear();
-        sender.sendMessage(PIntro + ChatColor.WHITE + "All restrictions for " + p + " were cleared.");
+        sender.sendMessage(PIntro + ChatColor.WHITE + "All restrictions for " + p.getName() + " were cleared.");
     }
 
     private void listRestrictedMonsters(CommandSender sender, Player p) {
         PlayerSettings ps = CASettings.getPlayerSettings(p);
-        sender.sendMessage(PIntro + ChatColor.WHITE + "Restricted for " + p + " are: " + ChatColor.AQUA + Joiner.on(", ").join(ps.Monsters));
+        sender.sendMessage(PIntro + ChatColor.WHITE + "Restricted for " + p.getName() + " are: " + ChatColor.AQUA + Joiner.on(", ").join(ps.Monsters));
     }
 
     private void sendMonsterAddedMessage(CommandSender player, EntityType monsterType, Player playerName) {
@@ -177,7 +177,7 @@ implements CommandExecutor {
                 ChatColor.WHITE +
                 monsterType +
                 " restricted to target player " +
-                playerName;
+                playerName.getName();
         player.sendMessage(message);
     }
 
@@ -186,7 +186,7 @@ implements CommandExecutor {
                 ChatColor.WHITE +
                 monsterType +
                 " allowed to target player " +
-                playerName;
+                playerName.getName();
         player.sendMessage(message);
     }
 

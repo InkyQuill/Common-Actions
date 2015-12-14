@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class MonsterChecker
         implements EventChecker {
@@ -27,7 +26,7 @@ public class MonsterChecker
         return instance;
     }
 
-    public boolean checkEvent(Event event, JavaPlugin plugin) {
+    public boolean checkEvent(Event event) {
         if (event instanceof EntityTargetLivingEntityEvent) {
             return this.checkEvent((EntityTargetLivingEntityEvent) event);
         } else if (event instanceof EntityTargetEvent) {

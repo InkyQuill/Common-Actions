@@ -1,6 +1,6 @@
 name: CommonActions
 main: net.inkyquill.equestria.ca.CommonActions
-version: 1.6.0g
+version: 1.6.0 final
 commands:
   mobrestrict:
     description: restrict monster to target a player.
@@ -20,3 +20,5 @@ commands:
   meteo:
     description: manage weather.
     aliases: wth
+  ca:
+    description: show info about plugin.

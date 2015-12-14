@@ -1,8 +1,5 @@
 package net.inkyquill.equestria.ca.utils;
 
-/**
- * Created by obruchnikov_pa on 24.11.2015.
- */
 public class SunCalculation {
 
     public static SunTimes Compute(int day, int mon, int year, double longitude, double latitude) {

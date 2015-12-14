@@ -7,9 +7,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Pavel on 29.11.2015.
- */
 public class Effect {
 
     public static Map<String, PotionEffectType> EffectsMap;

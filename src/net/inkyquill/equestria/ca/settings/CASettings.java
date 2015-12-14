@@ -42,10 +42,13 @@ public class CASettings
     public static Map<String, ItemData> ItemMessages;
     public static boolean DeathEffectsEnabled;
     public static String DeathMessage;
+    public static Object Version;
     static Map<String, WorldSettings> W;
     static Map<String, PlayerSettings> P;
 
     static {
+        Version = "1.6.0 final";
+
         weather = new Permission("ca.weather");
         gm = new Permission("ca.gms");
         gmi = new Permission("ca.gmi");
@@ -75,8 +78,7 @@ public class CASettings
     private static ItemData loadItemSettings(String id) {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "items.yml"));
         try {
-            ItemData data = new ItemData(config.getConfigurationSection(id).getValues(true));
-            return data;
+            return new ItemData(config.getConfigurationSection(id).getValues(true));
         } catch (Exception e) {
             return new ItemData();
         }
@@ -187,6 +189,7 @@ public class CASettings
         w.time.ChaosDurationMin = config.getInt(world.getName()+".time.chaos.minimum",2);
         w.time.ChaosDurationMax = config.getInt(world.getName()+".time.chaos.maximum",15);
 
+        w.time.UpdateEveryTick = config.getBoolean(world.getName() + ".time.updateeverytick", false);
         W.put(world.getName(),w);
     }
 
@@ -207,6 +210,7 @@ public class CASettings
             config.set(w.getName()+".time.tickspercalc",wc.time.TicksPerCalc);
             config.set(w.getName()+".time.chaos.minimum",wc.time.ChaosDurationMin);
             config.set(w.getName()+".time.chaos.maximum",wc.time.ChaosDurationMax);
+            config.set(w.getName() + ".time.updateeverytick", wc.time.UpdateEveryTick);
         }
         config.save(new File(plugin.getDataFolder(),"worlds.yml"));
     }
@@ -234,15 +238,11 @@ public class CASettings
 
     public static void SaveConfigs() throws IOException {
         SaveWorldConfigs();
-        L.info("Saved all worlds!");
         SavePlayerConfigs();
-        L.info("Saved all players!");
         saveRCConfig();
-        L.info("Saved RealChat config.");
         saveMainConfig();
-        L.info("Saved main config.");
         SaveItemsConfig();
-        L.info("Saved Items Config");
+        L.fine("Configs saved");
     }
 
     private static void saveMainConfig() {
@@ -269,8 +269,8 @@ public class CASettings
 
         chat.spokenPlayerColor = getConfigColor(config, "chatSpokenPlayerColor", ChatColor.YELLOW);
         chat.heardPlayerColor = getConfigColor(config, "chatHeardPlayerColor", ChatColor.GREEN);
-        chat.messageColor = getConfigColor(config, "chatMessageColor", ChatColor.WHITE);
-        chat.dimMessageColor = getConfigColor(config, "chatDimMessageColor", ChatColor.DARK_GRAY);
+        //chat.messageColor = getConfigColor(config, "chatMessageColor", ChatColor.WHITE);
+        //chat.dimMessageColor = getConfigColor(config, "chatDimMessageColor", ChatColor.DARK_GRAY);
 
         chat.garbleRangeDivisor = config.getDouble("garbleRangeDivisor", 2D);
         chat.speakingRangeMeters = config.getDouble("speakingRangeMeters", 50D);
@@ -299,10 +299,10 @@ public class CASettings
 
     public static void saveRCConfig() throws IOException {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "realisticchat.yml"));
-        config.set("chatSpokenPlayerColor", ChatColor.YELLOW.name());
-        config.set("chatHeardPlayerColor", ChatColor.GREEN.name());
-        config.set("chatMessageColor", ChatColor.WHITE.name());
-        config.set("chatDimMessageColor", ChatColor.DARK_GRAY.name());
+        config.set("chatSpokenPlayerColor", chat.spokenPlayerColor.name());
+        config.set("chatHeardPlayerColor", chat.heardPlayerColor.name());
+        // config.set("chatMessageColor", ChatColor.WHITE.name());
+        // config.set("chatDimMessageColor", ChatColor.DARK_GRAY.name());
 
         config.set("garbleRangeDivisor", chat.garbleRangeDivisor);
         config.set("speakingRangeMeters", chat.speakingRangeMeters);

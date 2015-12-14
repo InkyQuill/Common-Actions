@@ -1,7 +1,6 @@
 
 package net.inkyquill.equestria.ca.checkers;
 
-import net.inkyquill.equestria.ca.CommonActions;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.PlayerSettings;
 import org.bukkit.ChatColor;
@@ -14,15 +13,9 @@ public class DamageChecker {
 
     private static DamageChecker instance;
 
-    private CommonActions plugin;
-
-    private DamageChecker(CommonActions plugin) {
-        this.plugin = plugin;
-    }
-
-    public static synchronized DamageChecker getInstance(CommonActions plugin) {
+    public static synchronized DamageChecker getInstance() {
         if (instance == null) {
-            instance = new DamageChecker(plugin);
+            instance = new DamageChecker();
         }
         return instance;
     }
@@ -38,7 +31,7 @@ public class DamageChecker {
                     PlayerSettings ps = CASettings.getPlayerSettings(player);
                     ps.DeathTimes++;
                     player.sendMessage(ChatColor.RED + CASettings.DeathMessage);
-                    EffectsChecker.getInstance(this.plugin).addDeathEffects(player);
+                    EffectsChecker.getInstance().addDeathEffects(player);
                     player.setHealth(1);
                     player.setFireTicks(0);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 5, 5));

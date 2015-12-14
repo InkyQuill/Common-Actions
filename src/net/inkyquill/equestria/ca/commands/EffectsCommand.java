@@ -1,6 +1,6 @@
 package net.inkyquill.equestria.ca.commands;
 
-import com.google.common.base.Joiner;
+import guava10.com.google.common.base.Joiner;
 import net.inkyquill.equestria.ca.checkers.EffectsChecker;
 import net.inkyquill.equestria.ca.settings.CASettings;
 import net.inkyquill.equestria.ca.settings.Effect;

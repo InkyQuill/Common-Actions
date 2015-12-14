@@ -1,18 +1,4 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.apache.commons.lang.StringUtils
- *  org.bukkit.entity.Item
- *  org.bukkit.entity.Player
- *  org.bukkit.event.EventHandler
- *  org.bukkit.event.Listener
- *  org.bukkit.event.player.PlayerItemHeldEvent
- *  org.bukkit.event.player.PlayerPickupItemEvent
- *  org.bukkit.inventory.ItemStack
- *  org.bukkit.inventory.PlayerInventory
- *  org.bukkit.material.MaterialData
- */
+
 package net.inkyquill.equestria.ca.handlers;
 
 import guava10.com.google.common.base.Joiner;

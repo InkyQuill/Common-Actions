@@ -1,17 +1,4 @@
-/*
- * Decompiled with CFR 0_102.
- * 
- * Could not load the following classes:
- *  org.bukkit.Bukkit
- *  org.bukkit.command.CommandExecutor
- *  org.bukkit.command.PluginCommand
- *  org.bukkit.configuration.file.FileConfiguration
- *  org.bukkit.configuration.file.FileConfigurationOptions
- *  org.bukkit.event.Listener
- *  org.bukkit.plugin.Plugin
- *  org.bukkit.plugin.PluginManager
- *  org.bukkit.plugin.java.JavaPlugin
- */
+
 package net.inkyquill.equestria.ca;
 
 import net.inkyquill.equestria.ca.commands.*;
@@ -44,9 +31,9 @@ extends JavaPlugin {
         CASettings.chat = new RCsettings();
         CASettings.loadRCConfig();
 
-        this.getConfig().options().copyDefaults(true);
-        this.saveConfig();
-        this.reloadConfig();
+        //this.getConfig().options().copyDefaults(true);
+        //this.saveConfig();
+        //this.reloadConfig();
 
         CASettings.L.info("Starting mobrestrict command handler...");
         this.getCommand("mobrestrict").setExecutor(new MonsterCommand());
@@ -57,11 +44,12 @@ extends JavaPlugin {
         CASettings.L.info("Starting gmi command handler...");
         this.getCommand("gmi").setExecutor(new GMItemCommand());
         CASettings.L.info("Starting timemanager command handler...");
-        this.getCommand("timemanager").setExecutor(new CelestialCommand());
+        this.getCommand("timemanager").setExecutor(new TimeCommand());
         CASettings.L.info("Starting eff command handler...");
         this.getCommand("eff").setExecutor(new EffectsCommand());
         CASettings.L.info("Starting death command handler...");
         this.getCommand("death").setExecutor(new DECommands());
+        this.getCommand("ca").setExecutor(new CACommands());
 
         CASettings.L.info("Validating permissions...");
         PluginManager manager = getServer().getPluginManager();
