@@ -54,7 +54,7 @@ public class EffectsChecker
             }
 
         EffectUpdater repeater = new EffectUpdater(player, this);
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 400);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 100);
     }
 
     @Override
@@ -71,11 +71,11 @@ public class EffectsChecker
         if (effects != null && effects.size() > 0) {
 
             for (PotionEffectType eff : p.Effects.keySet()) {
-                player.addPotionEffect(new PotionEffect(eff, 200, effects.get(eff)), true);
+                player.addPotionEffect(new PotionEffect(eff, 1000, effects.get(eff)), true);
             }
 
             EffectUpdater repeater = new EffectUpdater(player, this);
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 400);
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CASettings.plugin, repeater, 100);
         }
     }
 }

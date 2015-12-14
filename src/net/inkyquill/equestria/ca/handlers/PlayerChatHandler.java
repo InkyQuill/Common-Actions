@@ -33,6 +33,8 @@ public class PlayerChatHandler implements Listener {
         Player p = event.getPlayer();
         PlayerSettings ps = CASettings.getPlayerSettings(p);
         if (ps.GM.Enabled) {
+            CASettings.L.info("[GM] " + ps.GM.Prefix + " " + event.getMessage());
+
             String str = String.valueOf(ps.GM.Color) +
                     ps.GM.Prefix +
                     " " +

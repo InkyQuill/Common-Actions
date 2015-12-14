@@ -47,7 +47,7 @@ public class CASettings
     static Map<String, PlayerSettings> P;
 
     static {
-        Version = "1.6.0 final";
+        Version = "1.6.1";
 
         weather = new Permission("ca.weather");
         gm = new Permission("ca.gms");
