@@ -41,6 +41,7 @@ extends JavaPlugin {
         this.getCommand("meteo").setExecutor(new WeatherCommand());
         CASettings.L.info("Starting gms command handler...");
         this.getCommand("gms").setExecutor(new GMCommand());
+        this.getCommand("gmsay").setExecutor(new GMSayCommand());
         CASettings.L.info("Starting gmi command handler...");
         this.getCommand("gmi").setExecutor(new GMItemCommand());
         CASettings.L.info("Starting timemanager command handler...");

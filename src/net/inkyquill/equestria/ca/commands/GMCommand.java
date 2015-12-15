@@ -55,6 +55,12 @@ implements CommandExecutor {
                 ChatColor.WHITE +
                 " shows your current GM Speech settings.";
         sender.sendMessage(message);
+        message = PIntro +
+                ChatColor.AQUA +
+                "/gmsay [message]" +
+                ChatColor.WHITE +
+                " says one message via GM Speech.";
+        sender.sendMessage(message);
     }
 
     public boolean onCommand(CommandSender sender, Command command, String s, String[] as) {

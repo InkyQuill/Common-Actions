@@ -1,6 +1,6 @@
 name: CommonActions
 main: net.inkyquill.equestria.ca.CommonActions
-version: 1.6.1
+version: 1.6.2
 commands:
   mobrestrict:
     description: restrict monster to target a player.
@@ -22,3 +22,5 @@ commands:
     aliases: wth
   ca:
     description: show info about plugin.
+  gmsay:
+    description: command for one gm message.
