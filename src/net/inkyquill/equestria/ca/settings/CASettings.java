@@ -47,7 +47,7 @@ public class CASettings
     static Map<String, PlayerSettings> P;
 
     static {
-        Version = "1.6.2";
+        Version = "1.7.10";
 
         weather = new Permission("ca.weather");
         gm = new Permission("ca.gms");
@@ -61,7 +61,7 @@ public class CASettings
         P = new HashMap<String, PlayerSettings>();
         ItemMessages = new HashMap<String, ItemData>();
         DeathEffects = new ArrayList<Effect>();
-        DeathTPLocation = new Location(Bukkit.getWorld("equestria"), 0, 80, 0);
+        DeathTPLocation = new Location(Bukkit.getWorld("default"), 0, 80, 0);
         DeathMessage = "You have nearly died...";
     }
 

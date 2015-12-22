@@ -1,6 +1,6 @@
 name: CommonActions
 main: net.inkyquill.equestria.ca.CommonActions
-version: 1.6.2
+version: 1.7.0
 commands:
   mobrestrict:
     description: restrict monster to target a player.
