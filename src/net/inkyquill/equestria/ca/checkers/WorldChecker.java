@@ -34,20 +34,20 @@ implements EventChecker {
         {
             if(event.toWeatherState()) {
                 w.setStorm(false);
-                w.setWeatherDuration(600);
+                w.setWeatherDuration(300000);
                 //log.info("Current weather set to sunny in " + w.getName());
                 return true;
             }
-            w.setWeatherDuration(600);
+            w.setWeatherDuration(300000);
             return false;
         } else if (ws.weather == WeatherType.storm)
         {
             if(!event.toWeatherState()) {
                 w.setStorm(true);
-                w.setWeatherDuration(600);
+                w.setWeatherDuration(300000);
                 //log.info("Current weather set to storm in " + w.getName());
             }
-            w.setWeatherDuration(600);
+            w.setWeatherDuration(300000);
             return false;
         }
         else
