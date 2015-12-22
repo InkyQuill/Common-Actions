@@ -126,7 +126,7 @@ implements CommandExecutor {
                 }
                 EntityType ent;
                 try {
-                    ent = EntityType.fromName(param[2].toUpperCase());
+                    ent = EntityType.valueOf(param[2].toUpperCase());
                 } catch (Exception e) {
                     sender.sendMessage(PIntro + ChatColor.WHITE + "Wrong monster name.");
                     return true;

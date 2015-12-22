@@ -42,7 +42,7 @@ public class GMItemCommand implements CommandExecutor {
             sender.sendMessage(PIntro + ChatColor.RED + "You should take item in your hand to manage messages.");
             return false;
         }
-        String key = on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+        String key = on(":").join(new Object[]{item.getType().name(), item.getDurability()});
         ItemData id = CASettings.getItemSettings(key);
 
         if (as == null || as.length == 0) {

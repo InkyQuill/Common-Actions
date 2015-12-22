@@ -29,7 +29,7 @@ public class PlayerSettings {
     public List<String> getMonstersList() {
         List<String> result = new ArrayList<String>();
         for (EntityType en : Monsters) {
-            result.add(en.getName());
+            result.add(en.name());
         }
         return result;
     }

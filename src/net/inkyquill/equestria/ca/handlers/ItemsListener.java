@@ -24,7 +24,7 @@ implements Listener {
         Player p = event.getPlayer();
         ItemStack item = p.getInventory().getItem(event.getNewSlot());
         if (item != null) {
-            String key = Joiner.on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+            String key = Joiner.on(":").join(new Object[]{item.getType().name(), item.getDurability()});
             ItemData i = CASettings.getItemSettings(key);
             if (i.HoldMessage != null) {
                 SendMessage(i.HoldMessage, i.HoldType, i.HoldRadius, p);
@@ -37,7 +37,7 @@ implements Listener {
         Player p = event.getPlayer();
         ItemStack item = event.getItem().getItemStack();
         if (item != null) {
-            String key = Joiner.on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+            String key = Joiner.on(":").join(new Object[]{item.getType().name(), item.getDurability()});
             ItemData i = CASettings.getItemSettings(key);
             if (i.PickupMessage != null) {
                 SendMessage(i.PickupMessage, i.PickupType, i.PickupRadius, p);
@@ -51,7 +51,7 @@ implements Listener {
 
         ItemStack item = p.getItemInHand();
         if (item != null) {
-            String key = Joiner.on(":").join(new Object[]{item.getTypeId(), item.getDurability()});
+            String key = Joiner.on(":").join(new Object[]{item.getType().name(), item.getDurability()});
             ItemData i = CASettings.getItemSettings(key);
             if (i.UseMessage != null) {
                 SendMessage(i.UseMessage, i.UseType, i.UseRadius, p);

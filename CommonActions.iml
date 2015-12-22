@@ -12,7 +12,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="server" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -22,5 +21,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="cauldron-1.7.10-2.1403.1.54-server" level="project" />
+    <orderEntry type="library" name="minecraft_server.1.7.10" level="project" />
   </component>
 </module>
