@@ -1,0 +1,26 @@
+name: CommonActions
+main: net.inkyquill.equestria.ca.CommonActions
+version: 2.0
+commands:
+  mobrestrict:
+    description: restrict monster to target a player.
+    aliases: mr
+  eff:
+    description: add/remove effects for player.
+    aliases: effects
+  death:
+    description: manage death events.
+  gms:
+    description: GM chat.
+  gmi:
+    description: GM item messages.
+  timemanager:
+    description: manages world time settings.
+    aliases: tm
+  meteo:
+    description: manage weather.
+    aliases: wth
+  ca:
+    description: show info about plugin.
+  gmsay:
+    description: command for one gm message.

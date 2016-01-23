@@ -23,9 +23,17 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
       </profile>
+      <profile default="false" name="Annotation profile for CommonActions" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="CommonActions" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CommonAbilities" target="1.6" />
+      <module name="CommonActions" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
